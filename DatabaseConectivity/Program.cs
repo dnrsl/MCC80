@@ -57,6 +57,7 @@ public class Program
                     break;
 
                 case 4:
+                    DepartmentTable.DepartmentsMain();
                     Console.WriteLine();
                     break;
 
