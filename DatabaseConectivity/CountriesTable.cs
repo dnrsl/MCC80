@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DatabaseConectivity
 {
-    internal class RegionsTable
+    internal class CountriesTable
     {
         private static string _connectionString =
         "Data Source=DESKTOP-HDKJSS4;Database=db_work;Integrated Security = True; Connect Timeout = 30;";
@@ -17,7 +17,7 @@ namespace DatabaseConectivity
 
         static void Menu()
         {
-            Console.WriteLine("=== Regions Table ===");
+            Console.WriteLine("=== Countries Table ===");
             Console.WriteLine("1. Create");
             Console.WriteLine("2. Update");
             Console.WriteLine("3. Delete");
@@ -27,11 +27,11 @@ namespace DatabaseConectivity
             Console.Write("Input: ");
         }
 
-        public static void RegionsMain()
+        public static void CountriesMain()
         {
             Console.Clear();
-            int number, idRegion;
-            string nRegion;
+            int number, idCountries, idRegion;
+            string nCountries;
 
             do
             {
@@ -43,10 +43,14 @@ namespace DatabaseConectivity
                     case 1:
                         try
                         {
-                            Console.WriteLine("Membuat Data Region Baru");
-                            Console.Write("Masukkan Nama Region : ");
-                            nRegion = Console.ReadLine();
-                            InsertRegions(nRegion);
+                            Console.WriteLine("Membuat Data Country Baru");
+                            Console.Write("Masukkan ID Country : ");
+                            idCountries = int.Parse(Console.ReadLine());
+                            Console.Write("Masukkan Nama Country : ");
+                            nCountries = Console.ReadLine();
+                            Console.Write("Masukkan ID Region : ");
+                            idRegion = int.Parse(Console.ReadLine());
+                            InsertCountries(idCountries, nCountries, idRegion);
                         }
 
                         catch
@@ -59,12 +63,14 @@ namespace DatabaseConectivity
                     case 2:
                         try
                         {
-                            Console.WriteLine("Update Region Berdasarkan ID");
-                            Console.Write("Masukkan ID :");
+                            Console.WriteLine("Update Country Berdasarkan ID");
+                            Console.Write("Masukkan ID Country : ");
+                            idCountries = int.Parse(Console.ReadLine());
+                            Console.Write("Masukkan Nama Country : ");
+                            nCountries = Console.ReadLine();
+                            Console.Write("Masukkan ID Region : ");
                             idRegion = int.Parse(Console.ReadLine());
-                            Console.Write("Nama Region Baru: ");
-                            nRegion = Console.ReadLine();
-                            UpdateRegions(idRegion, nRegion);
+                            UpdateCountries(idCountries, nCountries, idRegion);
                         }
 
                         catch
@@ -79,8 +85,8 @@ namespace DatabaseConectivity
                         {
                             Console.WriteLine("Hapus Region Berdasarkan ID");
                             Console.Write("Masukkan ID :");
-                            idRegion = int.Parse(Console.ReadLine());
-                            DeleteRegions(idRegion);
+                            idCountries = int.Parse(Console.ReadLine());
+                            DeleteCountries(idCountries);
                         }
 
                         catch
@@ -95,8 +101,8 @@ namespace DatabaseConectivity
                         {
                             Console.WriteLine("Menampilkan Region Berdasarkan ID");
                             Console.Write("Masukkan ID :");
-                            idRegion = int.Parse(Console.ReadLine());
-                            GetRegionsByID(idRegion);
+                            idCountries = int.Parse(Console.ReadLine());
+                            GetCountriesByID(idCountries);
                         }
 
                         catch
@@ -109,7 +115,7 @@ namespace DatabaseConectivity
                     case 5:
                         try
                         {
-                            GetRegions();
+                            GetCountries();
                             Console.WriteLine();
                         }
 
@@ -134,13 +140,13 @@ namespace DatabaseConectivity
             } while (number != 6);
 
         }
-        //GET ALL REGION
-        public static void GetRegions()
+        //GET ALL COUNTRIES
+        public static void GetCountries()
         {
             _connection = new SqlConnection(_connectionString);
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "SELECT * FROM regions";
+            sqlCommand.CommandText = "SELECT * FROM countries;";
 
             try
             {
@@ -151,14 +157,15 @@ namespace DatabaseConectivity
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("Id: " + reader.GetInt32(0));
+                        Console.WriteLine("Id: " + reader.GetString(0));
                         Console.WriteLine("Name: " + reader.GetString(1));
+                        Console.WriteLine("Region ID: " + reader.GetInt32(2));
                         Console.WriteLine();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No regions found.");
+                    Console.WriteLine("No countries found.");
                 }
 
                 reader.Close();
@@ -171,14 +178,14 @@ namespace DatabaseConectivity
             }
         }
 
-        //INSERT REGION
-        public static void InsertRegions(string name)
+        //INSERT Countries
+        public static void InsertCountries(int id, string name, int region_id)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "INSERT INTO regions VALUES (@name)";
+            sqlCommand.CommandText = "INSERT countries VALUES (@id, @name, @regionid)";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -186,11 +193,23 @@ namespace DatabaseConectivity
 
             try
             {
+                SqlParameter pID = new SqlParameter();
+                pID.ParameterName = "@id";
+                pID.SqlDbType = SqlDbType.Int;
+                pID.Value = id;
+                sqlCommand.Parameters.Add(pID);
+
                 SqlParameter pName = new SqlParameter();
                 pName.ParameterName = "@name";
                 pName.SqlDbType = SqlDbType.VarChar;
                 pName.Value = name;
                 sqlCommand.Parameters.Add(pName);
+
+                SqlParameter pRegionID = new SqlParameter();
+                pRegionID.ParameterName = "@regionid";
+                pRegionID.SqlDbType = SqlDbType.Int;
+                pRegionID.Value = region_id;
+                sqlCommand.Parameters.Add(pRegionID);
 
                 int result = sqlCommand.ExecuteNonQuery();
                 if (result > 0)
@@ -213,13 +232,13 @@ namespace DatabaseConectivity
         }
 
         //UPDATE REGION
-        public static void UpdateRegions(int id, string name)
+        public static void UpdateCountries(int id, string name, int region_id)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "UPDATE regions SET name = @name WHERE id = @id;";
+            sqlCommand.CommandText = "UPDATE countries SET name = @name, region_id = @regionid WHERE id = @id;";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -239,6 +258,12 @@ namespace DatabaseConectivity
                 pName.SqlDbType = SqlDbType.VarChar;
                 pName.Value = name;
                 sqlCommand.Parameters.Add(pName);
+
+                SqlParameter pRegionID = new SqlParameter();
+                pRegionID.ParameterName = "@regionid";
+                pRegionID.SqlDbType = SqlDbType.VarChar;
+                pRegionID.Value = region_id;
+                sqlCommand.Parameters.Add(pRegionID);
 
                 int result = sqlCommand.ExecuteNonQuery();
                 if (result > 0)
@@ -261,14 +286,14 @@ namespace DatabaseConectivity
         }
 
 
-        //DELETE REGION
-        public static void DeleteRegions(int id)
+        //DELETE Countries
+        public static void DeleteCountries(int id)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "DELETE FROM regions WHERE id = @id";
+            sqlCommand.CommandText = "DELETE FROM countries WHERE id = @id";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -303,13 +328,13 @@ namespace DatabaseConectivity
         }
 
 
-        //GET BY ID REGION
-        public static void GetRegionsByID(int id)
+        //GET BY ID Countries
+        public static void GetCountriesByID(int id)
         {
             _connection = new SqlConnection(_connectionString);
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "SELECT name FROM regions WHERE id = @id;";
+            sqlCommand.CommandText = "SELECT name, region_id FROM countries WHERE id = @id;";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -329,7 +354,8 @@ namespace DatabaseConectivity
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine(reader.GetString(0));
+                        Console.WriteLine("Name: " + reader.GetString(0));
+                        Console.WriteLine("Region ID: " + reader.GetInt32(1));
                     }
                 }
                 else

@@ -30,6 +30,7 @@ public class Program
 
     public static void Main()
     {
+        Console.Clear();
         int number;
         
         do
@@ -42,11 +43,11 @@ public class Program
             {
                 case 1:
                     RegionsTable.RegionsMain();
-                    Console.WriteLine("Data user berhasil dibuat");
                     Console.WriteLine();
                     break;
 
                 case 2:
+                    CountriesTable.CountriesMain();
                     Console.WriteLine();
                     break;
 
