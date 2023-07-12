@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace DatabaseConectivity
 {
-    internal class CountriesTable
+    internal class LocationsTable
     {
         private static string _connectionString =
-        "Data Source=DESKTOP-HDKJSS4;Database=db_work;Integrated Security = True; Connect Timeout = 30;";
+            "Data Source=DESKTOP-HDKJSS4;Database=db_work;Integrated Security = True; Connect Timeout = 30;";
 
         private static SqlConnection _connection;
 
         static void Menu()
         {
-            Console.WriteLine("=== Countries Table ===");
+            Console.WriteLine("=== Locations Table ===");
             Console.WriteLine("1. Create");
             Console.WriteLine("2. Update");
             Console.WriteLine("3. Delete");
@@ -27,11 +27,11 @@ namespace DatabaseConectivity
             Console.Write("Input: ");
         }
 
-        public static void CountriesMain()
+        public static void LocationsMain()
         {
             Console.Clear();
-            int number, idCountries, idRegion;
-            string nCountries;
+            int number, id, idCountry;
+            string address, postalCode, city, province;
 
             do
             {
@@ -43,14 +43,20 @@ namespace DatabaseConectivity
                     case 1:
                         try
                         {
-                            Console.WriteLine("Membuat Data Country Baru");
+                            Console.WriteLine("Membuat Data Lokasi Baru");
+                            Console.Write("Masukkan ID Lokasi : ");
+                            id = int.Parse(Console.ReadLine());
+                            Console.Write("Masukkan Alamat : ");
+                            address = Console.ReadLine();
+                            Console.Write("Masukkan Kode Pos : ");
+                            postalCode = (Console.ReadLine());
+                            Console.Write("Masukkan Kota : ");
+                            city = (Console.ReadLine());
+                            Console.Write("Masukkan Provinsi : ");
+                            province = (Console.ReadLine());
                             Console.Write("Masukkan ID Country : ");
-                            idCountries = int.Parse(Console.ReadLine());
-                            Console.Write("Masukkan Nama Country : ");
-                            nCountries = Console.ReadLine();
-                            Console.Write("Masukkan ID Region : ");
-                            idRegion = int.Parse(Console.ReadLine());
-                            InsertCountries(idCountries, nCountries, idRegion);
+                            idCountry = int.Parse(Console.ReadLine());
+                            InsertLocations(id, address, postalCode, city, province, idCountry);
                         }
 
                         catch
@@ -63,14 +69,20 @@ namespace DatabaseConectivity
                     case 2:
                         try
                         {
-                            Console.WriteLine("Update Country Berdasarkan ID");
+                            Console.WriteLine("Update Lokasi Berdasarkan ID");
+                            Console.Write("Masukkan ID Lokasi : ");
+                            id = int.Parse(Console.ReadLine());
+                            Console.Write("Masukkan Alamat : ");
+                            address = Console.ReadLine();
+                            Console.Write("Masukkan Kode Pos : ");
+                            postalCode = (Console.ReadLine());
+                            Console.Write("Masukkan Kota : ");
+                            city = (Console.ReadLine());
+                            Console.Write("Masukkan Provinsi : ");
+                            province = (Console.ReadLine());
                             Console.Write("Masukkan ID Country : ");
-                            idCountries = int.Parse(Console.ReadLine());
-                            Console.Write("Masukkan Nama Country : ");
-                            nCountries = Console.ReadLine();
-                            Console.Write("Masukkan ID Region : ");
-                            idRegion = int.Parse(Console.ReadLine());
-                            UpdateCountries(idCountries, nCountries, idRegion);
+                            idCountry = int.Parse(Console.ReadLine());
+                            InsertLocations(id, address, postalCode, city, province, idCountry);
                         }
 
                         catch
@@ -83,10 +95,10 @@ namespace DatabaseConectivity
                     case 3:
                         try
                         {
-                            Console.WriteLine("Hapus Country Berdasarkan ID");
+                            Console.WriteLine("Hapus Lokasi Berdasarkan ID");
                             Console.Write("Masukkan ID :");
-                            idCountries = int.Parse(Console.ReadLine());
-                            DeleteCountries(idCountries);
+                            id = int.Parse(Console.ReadLine());
+                            DeleteLocations(id);
                         }
 
                         catch
@@ -99,10 +111,10 @@ namespace DatabaseConectivity
                     case 4:
                         try
                         {
-                            Console.WriteLine("Menampilkan Country Berdasarkan ID");
+                            Console.WriteLine("Menampilkan Lokasi Berdasarkan ID");
                             Console.Write("Masukkan ID :");
-                            idCountries = int.Parse(Console.ReadLine());
-                            GetCountriesByID(idCountries);
+                            id = int.Parse(Console.ReadLine());
+                            GetLocationsByID(id);
                         }
 
                         catch
@@ -115,7 +127,7 @@ namespace DatabaseConectivity
                     case 5:
                         try
                         {
-                            GetCountries();
+                            GetLocations();
                             Console.WriteLine();
                         }
 
@@ -140,13 +152,13 @@ namespace DatabaseConectivity
             } while (number != 6);
 
         }
-        //GET ALL COUNTRIES
-        public static void GetCountries()
+        //GET ALL Locations
+        public static void GetLocations()
         {
             _connection = new SqlConnection(_connectionString);
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "SELECT * FROM countries;";
+            sqlCommand.CommandText = "SELECT * FROM locations;";
 
             try
             {
@@ -157,15 +169,18 @@ namespace DatabaseConectivity
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("Id: " + reader.GetString(0));
-                        Console.WriteLine("Name: " + reader.GetString(1));
-                        Console.WriteLine("Region ID: " + reader.GetInt32(2));
+                        Console.WriteLine("Id: " + reader.GetInt32(0));
+                        Console.WriteLine("Street Address: " + reader.GetString(1));
+                        Console.WriteLine("Postal Code: " + reader.GetString(2));
+                        Console.WriteLine("City: " + reader.GetString(3));
+                        Console.WriteLine("State Province: " + reader.GetString(4));
+                        Console.WriteLine("Country ID: " + reader.GetString(5));
                         Console.WriteLine();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No countries found.");
+                    Console.WriteLine("No Locations found.");
                 }
 
                 reader.Close();
@@ -178,14 +193,14 @@ namespace DatabaseConectivity
             }
         }
 
-        //INSERT Countries
-        public static void InsertCountries(int id, string name, int region_id)
+        //INSERT Locations
+        public static void InsertLocations(int id, string street_address, string postal_code,string city, string state_province, int country_id)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "INSERT countries VALUES (@id, @name, @regionid)";
+            sqlCommand.CommandText = "INSERT locations VALUES (@id, @address, @postal, @city, @province, @countryid)";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -199,17 +214,35 @@ namespace DatabaseConectivity
                 pID.Value = id;
                 sqlCommand.Parameters.Add(pID);
 
-                SqlParameter pName = new SqlParameter();
-                pName.ParameterName = "@name";
-                pName.SqlDbType = SqlDbType.VarChar;
-                pName.Value = name;
-                sqlCommand.Parameters.Add(pName);
+                SqlParameter pAddress = new SqlParameter();
+                pAddress.ParameterName = "@address";
+                pAddress.SqlDbType = SqlDbType.VarChar;
+                pAddress.Value = street_address;
+                sqlCommand.Parameters.Add(pAddress);
 
-                SqlParameter pRegionID = new SqlParameter();
-                pRegionID.ParameterName = "@regionid";
-                pRegionID.SqlDbType = SqlDbType.Int;
-                pRegionID.Value = region_id;
-                sqlCommand.Parameters.Add(pRegionID);
+                SqlParameter pPostal = new SqlParameter();
+                pPostal.ParameterName = "@postal";
+                pPostal.SqlDbType = SqlDbType.VarChar;
+                pPostal.Value = postal_code;
+                sqlCommand.Parameters.Add(pPostal);
+
+                SqlParameter pCity = new SqlParameter();
+                pCity.ParameterName = "@city";
+                pCity.SqlDbType = SqlDbType.VarChar;
+                pCity.Value = city;
+                sqlCommand.Parameters.Add(pCity);
+
+                SqlParameter pProvince = new SqlParameter();
+                pProvince.ParameterName = "@province";
+                pProvince.SqlDbType = SqlDbType.VarChar;
+                pProvince.Value = state_province;
+                sqlCommand.Parameters.Add(pProvince);
+
+                SqlParameter pCountryID = new SqlParameter();
+                pCountryID.ParameterName = "@countryid";
+                pCountryID.SqlDbType = SqlDbType.Int;
+                pCountryID.Value = country_id;
+                sqlCommand.Parameters.Add(pCountryID);
 
                 int result = sqlCommand.ExecuteNonQuery();
                 if (result > 0)
@@ -231,14 +264,14 @@ namespace DatabaseConectivity
             }
         }
 
-        //UPDATE REGION
-        public static void UpdateCountries(int id, string name, int region_id)
+        //UPDATE Locations
+        public static void UpdateLocations(int id, string street_address, string postal_code, string city, string state_province, int country_id)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "UPDATE countries SET name = @name, region_id = @regionid WHERE id = @id;";
+            sqlCommand.CommandText = "UPDATE locations SET street_address = @address, postal_code = @postal, city = @city, state_province = @province, country_id = @countryid WHERE id = @id;";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -253,17 +286,35 @@ namespace DatabaseConectivity
                 pID.Value = id;
                 sqlCommand.Parameters.Add(pID);
 
-                SqlParameter pName = new SqlParameter();
-                pName.ParameterName = "@name";
-                pName.SqlDbType = SqlDbType.VarChar;
-                pName.Value = name;
-                sqlCommand.Parameters.Add(pName);
+                SqlParameter pAddress = new SqlParameter();
+                pAddress.ParameterName = "@address";
+                pAddress.SqlDbType = SqlDbType.VarChar;
+                pAddress.Value = street_address;
+                sqlCommand.Parameters.Add(pAddress);
 
-                SqlParameter pRegionID = new SqlParameter();
-                pRegionID.ParameterName = "@regionid";
-                pRegionID.SqlDbType = SqlDbType.VarChar;
-                pRegionID.Value = region_id;
-                sqlCommand.Parameters.Add(pRegionID);
+                SqlParameter pPostal = new SqlParameter();
+                pPostal.ParameterName = "@postal";
+                pPostal.SqlDbType = SqlDbType.VarChar;
+                pPostal.Value = postal_code;
+                sqlCommand.Parameters.Add(pPostal);
+
+                SqlParameter pCity = new SqlParameter();
+                pCity.ParameterName = "@city";
+                pCity.SqlDbType = SqlDbType.VarChar;
+                pCity.Value = city;
+                sqlCommand.Parameters.Add(pCity);
+
+                SqlParameter pProvince = new SqlParameter();
+                pProvince.ParameterName = "@province";
+                pProvince.SqlDbType = SqlDbType.VarChar;
+                pProvince.Value = state_province;
+                sqlCommand.Parameters.Add(pProvince);
+
+                SqlParameter pCountryID = new SqlParameter();
+                pCountryID.ParameterName = "@countryid";
+                pCountryID.SqlDbType = SqlDbType.Int;
+                pCountryID.Value = country_id;
+                sqlCommand.Parameters.Add(pCountryID);
 
                 int result = sqlCommand.ExecuteNonQuery();
                 if (result > 0)
@@ -286,14 +337,14 @@ namespace DatabaseConectivity
         }
 
 
-        //DELETE Countries
-        public static void DeleteCountries(int id)
+        //DELETE Locations
+        public static void DeleteLocations(int id)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "DELETE FROM countries WHERE id = @id";
+            sqlCommand.CommandText = "DELETE FROM locations WHERE id = @id";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -328,13 +379,13 @@ namespace DatabaseConectivity
         }
 
 
-        //GET BY ID Countries
-        public static void GetCountriesByID(int id)
+        //GET BY ID Locations
+        public static void GetLocationsByID(int id)
         {
             _connection = new SqlConnection(_connectionString);
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "SELECT name, region_id FROM countries WHERE id = @id;";
+            sqlCommand.CommandText = "SELECT street_address, postal_code, city, state_province, country_id FROM locations WHERE id = @id;";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -354,13 +405,16 @@ namespace DatabaseConectivity
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("Name: " + reader.GetString(0));
-                        Console.WriteLine("Region ID: " + reader.GetInt32(1));
+                        Console.WriteLine("Alamat: " + reader.GetString(0));
+                        Console.WriteLine("Kode Pos: " + reader.GetString(1));
+                        Console.WriteLine("Kota: " + reader.GetString(2));
+                        Console.WriteLine("Provinsi: " + reader.GetString(3));
+                        Console.WriteLine("Country ID: " + reader.GetInt32(4));
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No regions found.");
+                    Console.WriteLine("No locations found.");
                 }
 
                 reader.Close();

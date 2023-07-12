@@ -52,6 +52,7 @@ public class Program
                     break;
 
                 case 3:
+                    LocationsTable.LocationsMain();
                     Console.WriteLine();
                     break;
 
