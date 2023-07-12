@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseConectivity
 {
-    internal class DepartmentTable
+    internal class JobsTable
     {
         private static string _connectionString = "Data Source=DESKTOP-HDKJSS4;Database=db_work;Integrated Security = True; Connect Timeout = 30;";
 
@@ -16,7 +17,7 @@ namespace DatabaseConectivity
 
         static void Menu()
         {
-            Console.WriteLine("=== Departments Table ===");
+            Console.WriteLine("=== Jobs Table ===");
             Console.WriteLine("1. Create");
             Console.WriteLine("2. Update");
             Console.WriteLine("3. Delete");
@@ -26,11 +27,11 @@ namespace DatabaseConectivity
             Console.Write("Input: ");
         }
 
-        public static void DepartmentsMain()
+        public static void JobsMain()
         {
             Console.Clear();
-            int number, id, idlocation, idManager;
-            string name;
+            int number, id, min, max;
+            string title;
 
             do
             {
@@ -42,16 +43,16 @@ namespace DatabaseConectivity
                     case 1:
                         try
                         {
-                            Console.WriteLine("Membuat Data Department Baru");
-                            Console.Write("Masukkan ID Department : ");
+                            Console.WriteLine("Membuat Data Pekerjaan Baru");
+                            Console.Write("Masukkan ID Pekerjaan : ");
                             id = int.Parse(Console.ReadLine());
-                            Console.Write("Masukkan Nama Department : ");
-                            name = Console.ReadLine();
-                            Console.Write("Masukkan ID Lokasi : ");
-                            idlocation = int.Parse(Console.ReadLine());
-                            Console.Write("Masukkan ID Manager : ");
-                            idManager = int.Parse(Console.ReadLine());
-                            InsertDepartments(id, name, idlocation, idManager);
+                            Console.Write("Masukkan Nama Pekerjaan : ");
+                            title = Console.ReadLine();
+                            Console.Write("Masukkan Gaji Minimal : ");
+                            min = int.Parse(Console.ReadLine());
+                            Console.Write("Masukkan Gaji Maksimal : ");
+                            max = int.Parse(Console.ReadLine());
+                            InsertJobs(id, title, min, max);
                         }
 
                         catch
@@ -64,16 +65,16 @@ namespace DatabaseConectivity
                     case 2:
                         try
                         {
-                            Console.WriteLine("Merubah Data Department");
-                            Console.Write("Masukkan ID Department : ");
+                            Console.WriteLine("Mengubah Data Department");
+                            Console.Write("Masukkan ID Pekerjaan : ");
                             id = int.Parse(Console.ReadLine());
-                            Console.Write("Masukkan Nama Department : ");
-                            name = Console.ReadLine();
-                            Console.Write("Masukkan ID Lokasi : ");
-                            idlocation = int.Parse(Console.ReadLine());
-                            Console.Write("Masukkan ID Manager : ");
-                            idManager = int.Parse(Console.ReadLine());
-                            UpdateDepartments(id, name, idlocation, idManager);
+                            Console.Write("Masukkan Nama Pekerjaan (Baru) : ");
+                            title = Console.ReadLine();
+                            Console.Write("Masukkan Gaji Minimal : ");
+                            min = int.Parse(Console.ReadLine());
+                            Console.Write("Masukkan Gaji Maksimal : ");
+                            max = int.Parse(Console.ReadLine());
+                            UpdateJobs(id, title, min, max);
                         }
 
                         catch
@@ -86,10 +87,10 @@ namespace DatabaseConectivity
                     case 3:
                         try
                         {
-                            Console.WriteLine("Hapus Lokasi Berdasarkan ID");
+                            Console.WriteLine("Hapus Pekerjaan Berdasarkan ID");
                             Console.Write("Masukkan ID :");
                             id = int.Parse(Console.ReadLine());
-                            DeleteDepartments(id);
+                            DeleteJobs(id);
                         }
 
                         catch
@@ -105,7 +106,7 @@ namespace DatabaseConectivity
                             Console.WriteLine("Menampilkan Lokasi Berdasarkan ID");
                             Console.Write("Masukkan ID :");
                             id = int.Parse(Console.ReadLine());
-                            GetDepartmentsByID(id);
+                            GetJobsByID(id);
                         }
 
                         catch
@@ -118,7 +119,7 @@ namespace DatabaseConectivity
                     case 5:
                         try
                         {
-                            GetDepartments();
+                            GetJobs();
                             Console.WriteLine();
                         }
 
@@ -143,13 +144,13 @@ namespace DatabaseConectivity
             } while (number != 6);
 
         }
-        //GET ALL Departments
-        public static void GetDepartments()
+        //GET ALL Jobs
+        public static void GetJobs()
         {
             _connection = new SqlConnection(_connectionString);
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "SELECT * FROM departments;";
+            sqlCommand.CommandText = "SELECT * FROM jobs;";
 
             try
             {
@@ -160,23 +161,16 @@ namespace DatabaseConectivity
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("Id: " + reader.GetInt32(0));
-                        Console.WriteLine("Name: " + reader.GetString(1));
-                        Console.WriteLine("Location ID: " + reader.GetInt32(2));
-                        if (!reader.IsDBNull(3))
-                        {
-                            Console.WriteLine("Manager ID: " + reader.GetInt32(3));
-                        }
-                        else
-                        {
-                            Console.WriteLine("Manager ID: belum ada");
-                        }
+                        Console.WriteLine("Id: " + reader.GetString(0));
+                        Console.WriteLine("Title: " + reader.GetString(1));
+                        Console.WriteLine("Gaji Minimal: " + reader.GetInt32(2));
+                        Console.WriteLine("Gaji Maksimal: " + reader.GetInt32(3));
                         Console.WriteLine();
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No Departments found.");
+                    Console.WriteLine("No Jobs found.");
                 }
 
                 reader.Close();
@@ -189,14 +183,14 @@ namespace DatabaseConectivity
             }
         }
 
-        //INSERT Departments
-        public static void InsertDepartments(int id, string name, int location_id, int manager_id)
+        //INSERT Jobs
+        public static void InsertJobs(int id, string title, int min_salary, int max_salary)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "INSERT departments VALUES (@id, @name, @locationid, @managerid)";
+            sqlCommand.CommandText = "INSERT jobs VALUES (@id, @title, @min, @max)";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -210,23 +204,23 @@ namespace DatabaseConectivity
                 pID.Value = id;
                 sqlCommand.Parameters.Add(pID);
 
-                SqlParameter pName = new SqlParameter();
-                pName.ParameterName = "@name";
-                pName.SqlDbType = SqlDbType.VarChar;
-                pName.Value = name;
-                sqlCommand.Parameters.Add(pName);
+                SqlParameter pTitle = new SqlParameter();
+                pTitle.ParameterName = "@title";
+                pTitle.SqlDbType = SqlDbType.VarChar;
+                pTitle.Value = title;
+                sqlCommand.Parameters.Add(pTitle);
 
-                SqlParameter pLocationID = new SqlParameter();
-                pLocationID.ParameterName = "@locationid";
-                pLocationID.SqlDbType = SqlDbType.Int;
-                pLocationID.Value = location_id;
-                sqlCommand.Parameters.Add(pLocationID);
+                SqlParameter pMin = new SqlParameter();
+                pMin.ParameterName = "@min";
+                pMin.SqlDbType = SqlDbType.Int;
+                pMin.Value = min_salary;
+                sqlCommand.Parameters.Add(pMin);
 
-                SqlParameter pManagerID = new SqlParameter();
-                pManagerID.ParameterName = "@managerid";
-                pManagerID.SqlDbType = SqlDbType.Int;
-                pManagerID.Value = manager_id;
-                sqlCommand.Parameters.Add(pManagerID);
+                SqlParameter pMax = new SqlParameter();
+                pMax.ParameterName = "@max";
+                pMax.SqlDbType = SqlDbType.Int;
+                pMax.Value = max_salary;
+                sqlCommand.Parameters.Add(pMax);
 
                 int result = sqlCommand.ExecuteNonQuery();
                 if (result > 0)
@@ -248,14 +242,14 @@ namespace DatabaseConectivity
             }
         }
 
-        //UPDATE Departments
-        public static void UpdateDepartments(int id, string name, int location_id, int manager_id)
+        //UPDATE Jobs
+        public static void UpdateJobs(int id, string title, int min_salary, int max_salary)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "UPDATE departments SET id = @id, name = @name, location_id = @locationid, manager_id = @managerid WHERE id = @id;";
+            sqlCommand.CommandText = "UPDATE jobs SET id = @id, title = @title, min_salary = @min, max_salary = @max WHERE id = @id;";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -270,23 +264,23 @@ namespace DatabaseConectivity
                 pID.Value = id;
                 sqlCommand.Parameters.Add(pID);
 
-                SqlParameter pName = new SqlParameter();
-                pName.ParameterName = "@name";
-                pName.SqlDbType = SqlDbType.VarChar;
-                pName.Value = name;
-                sqlCommand.Parameters.Add(pName);
+                SqlParameter pTitle = new SqlParameter();
+                pTitle.ParameterName = "@title";
+                pTitle.SqlDbType = SqlDbType.VarChar;
+                pTitle.Value = title;
+                sqlCommand.Parameters.Add(pTitle);
 
-                SqlParameter pLocationID = new SqlParameter();
-                pLocationID.ParameterName = "@locationid";
-                pLocationID.SqlDbType = SqlDbType.Int;
-                pLocationID.Value = location_id;
-                sqlCommand.Parameters.Add(pLocationID);
+                SqlParameter pMin = new SqlParameter();
+                pMin.ParameterName = "@min";
+                pMin.SqlDbType = SqlDbType.Int;
+                pMin.Value = min_salary;
+                sqlCommand.Parameters.Add(pMin);
 
-                SqlParameter pManagerID = new SqlParameter();
-                pManagerID.ParameterName = "@managerid";
-                pManagerID.SqlDbType = SqlDbType.Int;
-                pManagerID.Value = manager_id;
-                sqlCommand.Parameters.Add(pManagerID);
+                SqlParameter pMax = new SqlParameter();
+                pMax.ParameterName = "@max";
+                pMax.SqlDbType = SqlDbType.Int;
+                pMax.Value = max_salary;
+                sqlCommand.Parameters.Add(pMax);
 
                 int result = sqlCommand.ExecuteNonQuery();
                 if (result > 0)
@@ -309,14 +303,14 @@ namespace DatabaseConectivity
         }
 
 
-        //DELETE Departments
-        public static void DeleteDepartments(int id)
+        //DELETE Jobs
+        public static void DeleteJobs(int id)
         {
             _connection = new SqlConnection(_connectionString);
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "DELETE FROM departments WHERE id = @id";
+            sqlCommand.CommandText = "DELETE FROM Jobs WHERE id = @id";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -351,13 +345,13 @@ namespace DatabaseConectivity
         }
 
 
-        //GET BY ID Departments
-        public static void GetDepartmentsByID(int id)
+        //GET BY ID Jobs
+        public static void GetJobsByID(int id)
         {
             _connection = new SqlConnection(_connectionString);
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
-            sqlCommand.CommandText = "SELECT name, location_id, manager_id FROM departments WHERE id = @id;";
+            sqlCommand.CommandText = "SELECT title, min_salary, max_salary FROM jobs WHERE id = @id;";
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -377,14 +371,14 @@ namespace DatabaseConectivity
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("Nama Department: " + reader.GetString(0));
-                        Console.WriteLine("Location ID: " + reader.GetInt32(1));
-                        Console.WriteLine("Manager ID: " + reader.GetInt32(2));
+                        Console.WriteLine("Nama Pekerjaan: " + reader.GetString(0));
+                        Console.WriteLine("Gaji Minimal: " + reader.GetInt32(1));
+                        Console.WriteLine("Gaji Maksimal: " + reader.GetInt32(2));
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No Departments found.");
+                    Console.WriteLine("No locations found.");
                 }
 
                 reader.Close();

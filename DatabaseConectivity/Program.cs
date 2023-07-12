@@ -62,6 +62,7 @@ public class Program
                     break;
 
                 case 5:
+                    JobsTable.JobsMain();
                     Console.WriteLine();
                     break;
 
