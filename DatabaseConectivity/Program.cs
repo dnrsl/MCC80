@@ -71,6 +71,7 @@ public class Program
                     break;
 
                 case 7:
+                    HistoriesTable.HistoriesMain();
                     Console.WriteLine();
                     break;
 
