@@ -66,7 +66,7 @@ namespace DatabaseConectivity
                     case 2:
                         try
                         {
-                            Console.WriteLine("Mengubah Data Department berdasarkan ID Karyawan");
+                            Console.WriteLine("Mengubah Data Riwayat berdasarkan ID Karyawan");
                             Console.Write("Masukkan ID Karyawan : ");
                             empID = int.Parse(Console.ReadLine());
                             Console.Write("Tanggal Mulai : ");
@@ -90,7 +90,7 @@ namespace DatabaseConectivity
                     case 3:
                         try
                         {
-                            Console.WriteLine("Hapus Pekerjaan Berdasarkan ID Karyawan");
+                            Console.WriteLine("Hapus Riwayat Berdasarkan ID Karyawan");
                             Console.Write("Masukkan ID :");
                             empID = int.Parse(Console.ReadLine());
                             DeleteHistories(empID);

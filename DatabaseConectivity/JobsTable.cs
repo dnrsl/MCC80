@@ -65,7 +65,7 @@ namespace DatabaseConectivity
                     case 2:
                         try
                         {
-                            Console.WriteLine("Mengubah Data Department");
+                            Console.WriteLine("Mengubah Data Pekerjaan");
                             Console.Write("Masukkan ID Pekerjaan : ");
                             id = int.Parse(Console.ReadLine());
                             Console.Write("Masukkan Nama Pekerjaan (Baru) : ");
@@ -103,7 +103,7 @@ namespace DatabaseConectivity
                     case 4:
                         try
                         {
-                            Console.WriteLine("Menampilkan Lokasi Berdasarkan ID");
+                            Console.WriteLine("Menampilkan Pekerjaan Berdasarkan ID");
                             Console.Write("Masukkan ID :");
                             id = int.Parse(Console.ReadLine());
                             GetJobsByID(id);

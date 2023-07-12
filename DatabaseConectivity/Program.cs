@@ -67,6 +67,7 @@ public class Program
                     break;
 
                 case 6:
+                    EmployeesTable.EmployeesMain();
                     Console.WriteLine();
                     break;
 
