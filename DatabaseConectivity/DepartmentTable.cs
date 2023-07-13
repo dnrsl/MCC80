@@ -171,6 +171,7 @@ namespace DatabaseConectivity
                         {
                             Console.WriteLine("Manager ID: belum ada");
                         }
+                        //Console.WriteLine("Manager ID: " + reader.GetInt32(3) ?? "NULL");
                         Console.WriteLine();
                     }
                 }

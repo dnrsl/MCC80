@@ -199,8 +199,8 @@ namespace DatabaseConectivity
                         Console.WriteLine("Salary: " + reader.GetInt32(6));
                         Console.WriteLine("Commision pct: " + reader.GetDecimal(7));
                         Console.WriteLine("Manager ID: " + reader.GetInt32(8));
-                        Console.WriteLine("Job ID " + reader.GetString(9));
-                        Console.WriteLine("Department ID" + reader.GetInt32(10));
+                        Console.WriteLine("Job ID: " + reader.GetString(9));
+                        Console.WriteLine("Department ID: " + reader.GetInt32(10));
                         Console.WriteLine();
                     }
                 }
@@ -427,6 +427,7 @@ namespace DatabaseConectivity
         public static void DeleteEmployees(int id)
         {
             _connection = new SqlConnection(_connectionString);
+
 
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = _connection;
