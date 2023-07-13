@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConectivity", "DatabaseConectivity\DatabaseConectivity.csproj", "{0913D1FF-63C1-41F6-9D25-C35DDC798817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConectivity", "DatabaseConectivity\DatabaseConectivity.csproj", "{0913D1FF-63C1-41F6-9D25-C35DDC798817}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCArchitecture", "MVCArchitecture\MVCArchitecture.csproj", "{78310DD3-029E-4DE3-974A-A05B19BAD844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0913D1FF-63C1-41F6-9D25-C35DDC798817}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0913D1FF-63C1-41F6-9D25-C35DDC798817}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0913D1FF-63C1-41F6-9D25-C35DDC798817}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78310DD3-029E-4DE3-974A-A05B19BAD844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78310DD3-029E-4DE3-974A-A05B19BAD844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78310DD3-029E-4DE3-974A-A05B19BAD844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78310DD3-029E-4DE3-974A-A05B19BAD844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

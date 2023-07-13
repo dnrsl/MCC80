@@ -15,7 +15,7 @@ namespace DatabaseConectivity
 
         private static SqlConnection _connection;
 
-        static void Menu()
+        static int Menu()
         {
             Console.WriteLine("=== Regions Table ===");
             Console.WriteLine("1. Create");
@@ -25,6 +25,9 @@ namespace DatabaseConectivity
             Console.WriteLine("5. Get All");
             Console.WriteLine("6. Back");
             Console.Write("Input: ");
+
+            int number = Int32.Parse(Console.ReadLine());
+            return number;
         }
 
         public static void RegionsMain()
