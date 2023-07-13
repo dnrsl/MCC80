@@ -53,6 +53,7 @@ public class Progam
                         break;
 
                     case 4:
+                        DepartmentMenu();
                         Console.WriteLine();
                         break;
 
@@ -69,6 +70,7 @@ public class Progam
                         break;
 
                     case 8:
+                        repeat = false;
                         Console.WriteLine("Terima Kasih");
                         break;
 
@@ -81,7 +83,7 @@ public class Progam
 
             catch
             {
-
+                Console.WriteLine("Input Hanya diantara 1-7!");
             }
         } while (repeat);
 
@@ -221,6 +223,56 @@ public class Progam
 
                 case 5:
                     locationController.GetAll();
+                    PressAnyKey();
+                    break;
+
+                case 6:
+                    isTrue = false;
+                    break;
+
+                default:
+                    InvalidInput();
+                    break;
+            }
+
+        } while (isTrue);
+    }
+
+    private static void DepartmentMenu()
+    {
+        Department department = new Department();
+        VDepartment vDepartment = new VDepartment();
+        DepartmentController departmentController = new DepartmentController(department, vDepartment);
+
+        bool isTrue = true;
+        do
+        {
+            int pilihMenu = vDepartment.Menu();
+
+            switch (pilihMenu)
+            {
+                case 1:
+                    departmentController.Insert();
+                    PressAnyKey();
+                    break;
+
+                case 2:
+                    departmentController.Update();
+                    PressAnyKey();
+                    break;
+
+                case 3:
+                    departmentController.Delete();
+                    PressAnyKey();
+                    break;
+
+                case 4:
+                    departmentController.GetByID();
+                    PressAnyKey();
+                    break;
+
+                case 5:
+                    departmentController.GetAll();
                     PressAnyKey();
                     break;
 
