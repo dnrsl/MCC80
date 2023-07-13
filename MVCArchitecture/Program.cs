@@ -43,6 +43,7 @@ public class Progam
                         break;
 
                     case 2:
+                        CountryMenu();
                         Console.WriteLine();
                         break;
 
@@ -120,6 +121,56 @@ public class Progam
 
                 case 5:
                     regionController.GetAll();
+                    PressAnyKey();
+                    break;
+
+                case 6:
+                    isTrue = false;
+                    break;
+
+                default:
+                    InvalidInput();
+                    break;
+            }
+
+        } while (isTrue);
+    }
+
+    private static void CountryMenu()
+    {
+        Country country = new Country();
+        VCountry vCountry = new VCountry();
+        CountryController countryController = new CountryController(country, vCountry);
+
+        bool isTrue = true;
+        do
+        {
+            int pilihMenu = vCountry.Menu();
+
+            switch (pilihMenu)
+            {
+                case 1:
+                    countryController.Insert();
+                    PressAnyKey();
+                    break;
+
+                case 2:
+                    countryController.Update();
+                    PressAnyKey();
+                    break;
+
+                case 3:
+                    countryController.Delete();
+                    PressAnyKey();
+                    break;
+
+                case 4:
+                    countryController.GetByID();
+                    PressAnyKey();
+                    break;
+
+                case 5:
+                    countryController.GetAll();
                     PressAnyKey();
                     break;
 
