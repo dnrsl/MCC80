@@ -48,6 +48,7 @@ public class Progam
                         break;
 
                     case 3:
+                        LocationMenu();
                         Console.WriteLine();
                         break;
 
@@ -171,6 +172,55 @@ public class Progam
 
                 case 5:
                     countryController.GetAll();
+                    PressAnyKey();
+                    break;
+
+                case 6:
+                    isTrue = false;
+                    break;
+
+                default:
+                    InvalidInput();
+                    break;
+            }
+
+        } while (isTrue);
+    }
+    private static void LocationMenu()
+    {
+        Location location = new Location();
+        VLocation vLocation = new VLocation();
+        LocationController locationController = new LocationController(location, vLocation);
+
+        bool isTrue = true;
+        do
+        {
+            int pilihMenu = vLocation.Menu();
+
+            switch (pilihMenu)
+            {
+                case 1:
+                    locationController.Insert();
+                    PressAnyKey();
+                    break;
+
+                case 2:
+                    locationController.Update();
+                    PressAnyKey();
+                    break;
+
+                case 3:
+                    locationController.Delete();
+                    PressAnyKey();
+                    break;
+
+                case 4:
+                    locationController.GetByID();
+                    PressAnyKey();
+                    break;
+
+                case 5:
+                    locationController.GetAll();
                     PressAnyKey();
                     break;
 

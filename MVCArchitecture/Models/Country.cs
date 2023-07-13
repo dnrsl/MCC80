@@ -105,7 +105,7 @@ public class Country
         {
             SqlParameter pID = new SqlParameter();
             pID.ParameterName = "@id";
-            pID.SqlDbType = SqlDbType.Int;
+            pID.SqlDbType = SqlDbType.VarChar;
             pID.Value = country.Id;
             sqlCommand.Parameters.Add(pID);
 
@@ -150,7 +150,7 @@ public class Country
         {
             SqlParameter pID = new SqlParameter();
             pID.ParameterName = "@id";
-            pID.SqlDbType = SqlDbType.Int;
+            pID.SqlDbType = SqlDbType.VarChar;
             pID.Value = country.Id;
             sqlCommand.Parameters.Add(pID);
 
@@ -196,7 +196,7 @@ public class Country
         {
             SqlParameter pID = new SqlParameter();
             pID.ParameterName = "@id";
-            pID.SqlDbType = SqlDbType.Int;
+            pID.SqlDbType = SqlDbType.VarChar;
             pID.Value = country.Id;
             sqlCommand.Parameters.Add(pID);
 
