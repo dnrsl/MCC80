@@ -65,6 +65,7 @@ public class Location
         using SqlCommand sqlCommand = new SqlCommand();
         sqlCommand.Connection = connection;
         sqlCommand.CommandText = "SELECT id, street_address, postal_code, city, state_province, country_id FROM locations WHERE id = @id;";
+        sqlCommand.Parameters.AddWithValue("id", id);
 
         try
         {
