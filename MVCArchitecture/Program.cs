@@ -68,6 +68,7 @@ public class Progam
                         break;
 
                     case 7:
+                        HistoryMenu();
                         Console.WriteLine();
                         break;
 
@@ -375,6 +376,56 @@ public class Progam
 
                 case 5:
                     employeeController.GetAll();
+                    PressAnyKey();
+                    break;
+
+                case 6:
+                    isTrue = false;
+                    break;
+
+                default:
+                    InvalidInput();
+                    break;
+            }
+
+        } while (isTrue);
+    }
+
+    private static void HistoryMenu()
+    {
+        History history = new History();
+        VHistory vHistory = new VHistory();
+        HistoryController historyController = new HistoryController(history, vHistory);
+
+        bool isTrue = true;
+        do
+        {
+            int pilihMenu = vHistory.Menu();
+
+            switch (pilihMenu)
+            {
+                case 1:
+                    historyController.Insert();
+                    PressAnyKey();
+                    break;
+
+                case 2:
+                    historyController.Update();
+                    PressAnyKey();
+                    break;
+
+                case 3:
+                    historyController.Delete();
+                    PressAnyKey();
+                    break;
+
+                case 4:
+                    historyController.GetByID();
+                    PressAnyKey();
+                    break;
+
+                case 5:
+                    historyController.GetAll();
                     PressAnyKey();
                     break;
 
