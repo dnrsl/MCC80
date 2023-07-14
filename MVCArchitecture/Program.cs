@@ -29,7 +29,8 @@ public class Progam
             Console.WriteLine("5. Jobs");
             Console.WriteLine("6. Employees");
             Console.WriteLine("7. Histories");
-            Console.WriteLine("8. Exit");
+            Console.WriteLine("8. Linq");
+            Console.WriteLine("9. Exit");
             Console.Write("Input: ");
 
             try
@@ -73,6 +74,11 @@ public class Progam
                         break;
 
                     case 8:
+                        MenuLinq();
+                        Console.WriteLine();
+                        break;
+
+                    case 9:
                         repeat = false;
                         Console.WriteLine("Terima Kasih");
                         break;
@@ -439,6 +445,18 @@ public class Progam
             }
 
         } while (isTrue);
+    }
+
+    public static void MenuLinq()
+    {
+        var employee = new Employee();
+        var department = new Department();
+        var location = new Location();
+        var country = new Country();
+        var region = new Region();
+        var linq = new LinqController (employee, department, location, country, region);
+
+        linq.FullData();
     }
 
 
