@@ -63,6 +63,7 @@ public class Progam
                         break;
 
                     case 6:
+                        EmployeeMenu();
                         Console.WriteLine();
                         break;
 
@@ -324,6 +325,56 @@ public class Progam
 
                 case 5:
                     jobController.GetAll();
+                    PressAnyKey();
+                    break;
+
+                case 6:
+                    isTrue = false;
+                    break;
+
+                default:
+                    InvalidInput();
+                    break;
+            }
+
+        } while (isTrue);
+    }
+
+    private static void EmployeeMenu()
+    {
+        Employee employee = new Employee();
+        VEmployee vEmployee = new VEmployee();
+        EmployeeController employeeController = new EmployeeController(employee, vEmployee);
+
+        bool isTrue = true;
+        do
+        {
+            int pilihMenu = vEmployee.Menu();
+
+            switch (pilihMenu)
+            {
+                case 1:
+                    employeeController.Insert();
+                    PressAnyKey();
+                    break;
+
+                case 2:
+                    employeeController.Update();
+                    PressAnyKey();
+                    break;
+
+                case 3:
+                    employeeController.Delete();
+                    PressAnyKey();
+                    break;
+
+                case 4:
+                    employeeController.GetByID();
+                    PressAnyKey();
+                    break;
+
+                case 5:
+                    employeeController.GetAll();
                     PressAnyKey();
                     break;
 

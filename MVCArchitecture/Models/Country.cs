@@ -62,7 +62,7 @@ public class Country
         var connection = Connection.Get();
         using SqlCommand sqlCommand = new SqlCommand();
         sqlCommand.Connection = connection;
-        sqlCommand.CommandText = "SELECT id, name, region_id FROM countries WHERE id = @id";
+        sqlCommand.CommandText = "SELECT * WHERE id = @id";
         sqlCommand.Parameters.AddWithValue("id", id);
 
         try
