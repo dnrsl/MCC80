@@ -40,6 +40,7 @@ public class History
                     history.EndDate = reader.GetDateTime(2);
                     history.DepartmentId = reader.GetInt32(3);
                     history.JobId = reader.GetString(4);
+                    histories.Add(history);
                 }
             }
             else
