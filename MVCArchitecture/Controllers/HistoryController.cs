@@ -92,7 +92,7 @@ public class HistoryController
     public void GetByID()
     {
         int empID = _historyView.GetByID();
-        History history = _historyModel.GetByID(empID);
+        var history = _historyModel.GetByID(empID);
         if (history != null)
         {
             _historyView.DisplayHistory(history);

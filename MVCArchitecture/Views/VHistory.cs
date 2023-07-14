@@ -29,7 +29,7 @@ public class VHistory
 
     public void GetAll(List<History> histories)
     {
-        foreach (var history in  histories)
+        foreach (var history in histories)
         {
             DisplayHistory(history);
         }

@@ -58,14 +58,12 @@ public class History
 
     public History GetByID (int empID)
     {
-        var connection = Connection.Get();
-
         var history = new History();
-
-        SqlCommand sqlCommand = new SqlCommand();
+        var connection = Connection.Get();
+        using SqlCommand sqlCommand = new SqlCommand();
         sqlCommand.Connection = connection;
-        sqlCommand.CommandText = "SELECT * FROM histories WHERE employee_id = @employeeid;";
-        sqlCommand.Parameters.AddWithValue("employee_id", empID);
+        sqlCommand.CommandText = "SELECT * FROM histories WHERE employee_id = @employee_id;";
+        sqlCommand.Parameters.AddWithValue("@employee_id", empID);
 
         try
         {
@@ -82,6 +80,8 @@ public class History
             }
             reader.Close();
             connection.Close();
+
+            return history;
         }
 
         catch
@@ -89,7 +89,7 @@ public class History
             return null;
         }
 
-        return history;
+        
     }
 
     public int Insert (History history)
