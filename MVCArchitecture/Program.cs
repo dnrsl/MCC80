@@ -457,6 +457,9 @@ public class Progam
         var linq = new LinqController (employee, department, location, country, region);
 
         linq.FullData();
+
+
+        linq.DepartmentData();
     }
 
 

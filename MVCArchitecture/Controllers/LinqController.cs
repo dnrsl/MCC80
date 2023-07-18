@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,9 @@ public class LinqController
                             CName = c.Name,
                             RName = r.Name
                         }).ToList();
+
+        Console.WriteLine("Soal 1");
+
         foreach (var data in fullData)
         {
             Console.WriteLine($"Id : {data.Id}");
@@ -62,7 +66,38 @@ public class LinqController
             Console.WriteLine($"Country : {data.CName}");
             Console.WriteLine($"Region : {data.RName}");
             Console.WriteLine("------------------------------------");
-
         }
+
+        Console.WriteLine();
+    }
+
+    public void DepartmentData()
+    {
+        var getEmployee = _employee.GetAll();
+        var getDepartment = _department.GetAll();
+
+        var depData = (from d in getDepartment
+                       join e in getEmployee on d.Id equals e.DepartmentId
+                       group e by d.Name into ed
+                       select new
+                       {
+                           DepData = ed.Key,
+                           TotalEmp = ed.Count(),
+                           MinSalary = ed.Min(e => e.Salary),
+                           MaxSalary = ed.Max(e => e.Salary),
+                           AvgSalary = ed.Average(e => e.Salary)
+                       }).ToList();
+
+        Console.WriteLine("Soal 2");
+        foreach (var data in depData)
+        {
+            Console.WriteLine("Department : " + data.DepData);
+            Console.WriteLine("Total Karyawan : " + data.TotalEmp);
+            Console.WriteLine("Gaji Terkecil : " + data.MinSalary);
+            Console.WriteLine("Gaji Terbesar : " + data.MaxSalary);
+            Console.WriteLine("Gaji Rata-Rata : " + data.AvgSalary);
+            Console.WriteLine("-------------------------------------");
+        }
+        Console.WriteLine();
     }
 }
