@@ -1,6 +1,15 @@
+using API.Data;
+using Microsoft.AspNetCore.Connections;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
+var connection = builder.Configuration.GetConnectionString("DefaultConnection"); //didapatkan dari appsettings.json
+// Add DbContext to the container. (mendaftarkan class DbContext)
+builder.Services.AddDbContext<BookingDbContext>(option => option.UseSqlServer(connection));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

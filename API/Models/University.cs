@@ -1,12 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models;
 
-public class University
+[Table("tb_m_universities")]
+
+public class University : BaseEntity
 {
-    public Guid Guid { get; set; }
-    public string code { get; set; }
+    [Column ("code", TypeName = "nvarchar(50)")]
+    public string Code { get; set; }
+
+    [Column("name", TypeName = "nvarchar(100)")] //nvarchar bisa menerima unique symbol
     public string Name { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime ModifiedDate { get; set;}
+
+    //Cardinality (Satu University punya banyak Education)
+    public ICollection<Education>? Educations { get; set; } 
 }
