@@ -25,7 +25,7 @@ public class Booking : BaseEntity
     public Guid EmployeeGuid { get; set; }
 
     //
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
 
-    public Room Room { get; set; }
+    public Room? Room { get; set; }
 }
