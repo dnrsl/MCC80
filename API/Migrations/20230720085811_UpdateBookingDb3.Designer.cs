@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    partial class BookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230720085811_UpdateBookingDb3")]
+    partial class UpdateBookingDb3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +27,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Account", b =>
                 {
                     b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
 
@@ -181,7 +184,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Employee", b =>
                 {
                     b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
 
@@ -325,17 +327,6 @@ namespace API.Migrations
                     b.ToTable("tb_m_universities");
                 });
 
-            modelBuilder.Entity("API.Models.Account", b =>
-                {
-                    b.HasOne("API.Models.Employee", "Employee")
-                        .WithOne("Account")
-                        .HasForeignKey("API.Models.Account", "Guid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("API.Models.AccountRole", b =>
                 {
                     b.HasOne("API.Models.Account", "Account")
@@ -393,15 +384,27 @@ namespace API.Migrations
                     b.Navigation("University");
                 });
 
+            modelBuilder.Entity("API.Models.Employee", b =>
+                {
+                    b.HasOne("API.Models.Account", "Account")
+                        .WithOne("Employee")
+                        .HasForeignKey("API.Models.Employee", "Guid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
             modelBuilder.Entity("API.Models.Account", b =>
                 {
                     b.Navigation("AccountRoles");
+
+                    b.Navigation("Employee")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Models.Employee", b =>
                 {
-                    b.Navigation("Account");
-
                     b.Navigation("Bookings");
 
                     b.Navigation("Education");

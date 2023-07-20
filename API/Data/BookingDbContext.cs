@@ -36,7 +36,7 @@ public class BookingDbContext : DbContext
         modelBuilder.Entity<University>()
                     .HasMany(u => u.Educations)
                     .WithOne(e => e.University)
-                    .HasForeignKey(e => e.UniversityGuid);
+                    .HasForeignKey(e => e.UniversityGuid); //
 
         //Many Education with One University (N:1) (bisa dibolak balik)
         /*  
@@ -50,33 +50,31 @@ public class BookingDbContext : DbContext
         modelBuilder.Entity<Employee>()
                     .HasMany(e => e.Bookings)
                     .WithOne(b => b.Employee)
-                    .HasForeignKey(b => b.EmployeeGuid);
+                    .HasForeignKey(b => b.EmployeeGuid); //
 
         modelBuilder.Entity<Education>()
                     .HasOne(d => d.Employee)
                     .WithOne(e => e.Education)
-                    .HasForeignKey<Education>(e => e.Guid); //Karena PK dan FK diambil dari Guid milik Education
+                    .HasForeignKey<Education>(d => d.Guid); //Karena PK dan FK diambil dari Guid milik Education //
 
-        modelBuilder.Entity<Employee>()
-                    .HasOne(e => e.Account)
-                    .WithOne(a => a.Employee)
-                    .HasForeignKey<Employee>(a => a.Guid);
+        modelBuilder.Entity<Account>()
+                       .HasOne(account => account.Employee)
+                       .WithOne(employee => employee.Account)
+                       .HasForeignKey<Account>(account => account.Guid); //
 
         modelBuilder.Entity<AccountRole>()
                     .HasOne(ar => ar.Account)
                     .WithMany(a => a.AccountRoles)
-                    .HasForeignKey(a => a.AccountGuid);
+                    .HasForeignKey(ar => ar.AccountGuid); //
+
         modelBuilder.Entity<AccountRole>()
                     .HasOne(ar => ar.Role)
                     .WithMany(r => r.AccountRoles)
-                    .HasForeignKey(r => r.RoleGuid);
-        modelBuilder.Entity<University>()
-                    .HasMany(u => u.Educations)
-                    .WithOne(ed => ed.University)
-                    .HasForeignKey(ed => ed.UniversityGuid);
+                    .HasForeignKey(r => r.RoleGuid); //
+
         modelBuilder.Entity<Room>()
                     .HasMany(r => r.Bookings)
                     .WithOne(b => b.Room)
-                    .HasForeignKey(b => b.RoomGuid);
+                    .HasForeignKey(b => b.RoomGuid); //
     }
 }
