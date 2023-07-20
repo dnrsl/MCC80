@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/room")]
+[Route("api/rooms")]
 public class RoomController : ControllerBase
 {
     private readonly IRoomRepository _roomRepository;
