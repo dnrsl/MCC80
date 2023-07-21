@@ -1,5 +1,7 @@
 ﻿using API.Contracts;
+using API.DTOs.Universities;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -8,19 +10,19 @@ namespace API.Controllers;
 [Route("api/universities")]
 public class UniversityController : ControllerBase
 {
-    private readonly IUniversityRepository _universityRepository;
-    public UniversityController(IUniversityRepository universityRepository)
+    private readonly UniversityService _universityService;
+    public UniversityController(UniversityService universityService)
     {
-        _universityRepository = universityRepository;
+        _universityService = universityService;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var result = _universityRepository.GetAll();
+        var result = _universityService.GetAll();
         if (!result.Any())
         {
-            return NotFound();
+            return NotFound("No data found");
         }
         return Ok(result);
     }
@@ -28,18 +30,18 @@ public class UniversityController : ControllerBase
     [HttpGet("{guid}")]
     public IActionResult GetByGuid(Guid guid) 
     {
-        var result = _universityRepository.GetByGuid(guid);
+        var result = _universityService.GetByGuid(guid);
         if(result is null)
         {
-            return NotFound();
+            return NotFound("Guid is not found");
         }
         return Ok(result);
     }
 
     [HttpPost]
-    public IActionResult Create(University university)
+    public IActionResult Create(NewUniversityDto newUniversityDto)
     {
-        var result = _universityRepository.Create(university);
+        var result = _universityService.Create(newUniversityDto);
         if (result is null)
         {
             return StatusCode(500, "Error Retrieve from database");
@@ -49,18 +51,17 @@ public class UniversityController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update(University university)
+    public IActionResult Update(UniversityDto universityDto)
     {
-        var check = _universityRepository.GetByGuid(university.Guid);
-        if (check is null)
+        var result = _universityService.Update(universityDto);
+        if (result is -1)
         {
             return NotFound("Guid is not found");
         }
 
-        var result = _universityRepository.Update(university);
-        if (!result)
+        if (result is 0)
         {
-            return StatusCode(500, "Error Retrieve from Database");
+            return StatusCode(500, "Error Retrieve from database");
         }
         return Ok("Update Success");
     }
@@ -68,16 +69,15 @@ public class UniversityController : ControllerBase
     [HttpDelete]
     public IActionResult Delete(Guid guid)
     {
-        var data = _universityRepository.GetByGuid(guid);
-        if (data is null)
+        var result = _universityService.Delete(guid);
+        if (result is -1)
         {
-            return NotFound("Guid Is Not Found");
+            return NotFound("Guid is not found");
         }
 
-        var result = _universityRepository.Delete(data);
-        if(!result)
+        if (result is 0)
         {
-            return StatusCode(500, "Error Retrieve from Database");
+            return StatusCode(500, "Error Retrieve from database");
         }
         return Ok("Delete Success");
     }

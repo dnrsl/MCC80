@@ -47,6 +47,7 @@ public class GeneralRepository<TEntity> : IGeneralRepository<TEntity> where TEnt
         {
             _context.Entry(entity)
                     .State = EntityState.Modified;
+            _context.SaveChanges();
             return true;
         }
         catch
