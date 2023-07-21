@@ -5,71 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories;
 
-public class UniversityRepository : IUniversityRepository
+public class UniversityRepository : GeneralRepository<University>, IUniversityRepository
 {
-    private readonly BookingDbContext _context;
-
-    public UniversityRepository(BookingDbContext context)
+    public UniversityRepository(BookingDbContext context) : base(context)
     {
-        _context = context;
-    }
-
-    public University? Create(University university)
-    {
-        try
-        {
-            _context.Set<University>()
-                    .Add(university);
-            _context.SaveChanges();
-            return university;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    public bool Delete(University university)
-    {
-        try
-        {
-            _context.Set<University>()
-                    .Remove(university);
-            _context.SaveChanges();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    public University? GetByGuid(Guid guid)
-    {
-        var data = _context.Set<University>()
-                            .Find(guid);
-        _context.ChangeTracker.Clear();
-        return data;
-    }
-
-    public IEnumerable<University> GetAll()
-    {
-        return _context.Set<University>()
-                        .ToList();
-    }
-
-    public bool Update(University university)
-    {
-        try
-        {
-            _context.Entry(university)
-                    .State = EntityState.Modified;
-            _context.SaveChanges();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
     }
 }
