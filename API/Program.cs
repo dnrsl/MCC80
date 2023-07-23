@@ -30,6 +30,7 @@ builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<AccountRoleService>();
+builder.Services.AddScoped<EducationService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
