@@ -1,5 +1,6 @@
 ﻿using API.Contracts;
 using API.DTOs.Rooms;
+using API.DTOs.Universities;
 using API.Models;
 
 namespace API.Services;
@@ -59,6 +60,7 @@ public class RoomService
 
         Room toUpdate = roomDto;
         toUpdate.CreatedDate = room.CreatedDate;
+
         var result = _roomRepository.Update(toUpdate);
 
         return result ? 1 : 0;

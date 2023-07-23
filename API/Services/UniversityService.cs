@@ -57,11 +57,9 @@ public class UniversityService
         {
             return -1; // university is null or not found
         }
-
         University toUpdate = universityDto;
-        toUpdate.CreatedDate = university.CreatedDate; //agar created date tidak berubah saat update
-        var result = _universityRepository.Update(toUpdate);
-        //var result = _universityRepository.Update(university);
+        toUpdate.CreatedDate = university.CreatedDate; //agar created date tidak berubah
+        var result = _universityRepository.Update(toUpdate); 
         return result ? 1 // university is updated
             : 0; // university failed to update
     }

@@ -1,6 +1,8 @@
 ﻿using API.Contracts;
 using API.DTOs.Roles;
+using API.DTOs.Universities;
 using API.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace API.Services;
 
@@ -60,8 +62,8 @@ public class RoleService
 
         Role toUpdate = roleDto;
         toUpdate.CreatedDate = role.CreatedDate;
-        var result = _roleRepository.Update(toUpdate);
 
+        var result = _roleRepository.Update(toUpdate);
         return result ? 1 : 0;
     }
 

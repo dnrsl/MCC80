@@ -1,6 +1,8 @@
 ﻿using API.Contracts;
+using API.DTOs.Accounts;
 using API.Models;
 using API.Repositories;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,20 +11,20 @@ namespace API.Controllers;
 [Route("api/accounts")]
 public class AccountController : ControllerBase
 {
-    private readonly IAccountRepository _accountRepository;
+    private readonly AccountService _accountService;
 
-    public AccountController(IAccountRepository accountRepository)
+    public AccountController(AccountService accountService)
     {
-        _accountRepository = accountRepository;
+        _accountService = accountService;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var result = _accountRepository.GetAll();
+        var result = _accountService.GetAll();
         if (!result.Any())
         {
-            return NotFound();
+            return NotFound("No data found");
         }
         return Ok(result);
     }
@@ -30,18 +32,18 @@ public class AccountController : ControllerBase
     [HttpGet("{guid}")]
     public IActionResult GetByGuid(Guid guid)
     {
-        var result = _accountRepository.GetByGuid(guid);
+        var result = _accountService.GetByGuid(guid);
         if (result is null)
         {
-            return NotFound();
+            return NotFound("Guid is not found");
         }
         return Ok(result);
     }
 
     [HttpPost]
-    public IActionResult Create(Account account)
+    public IActionResult Create(NewAccountDto newAccountDto)
     {
-        var result = _accountRepository.Create(account);
+        var result = _accountService.Create(newAccountDto);
         if (result is null)
         {
             return StatusCode(500, "Error Retrieve from database");
@@ -51,36 +53,39 @@ public class AccountController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update(Account account)
+    public IActionResult Update(AccountDto accountDto)
     {
-        var check = _accountRepository.GetByGuid(account.Guid);
-        if (check is null)
+
+        var result = _accountService.Update(accountDto);
+
+        if (result is -1)
         {
             return NotFound("Guid is not found");
         }
 
-        var result = _accountRepository.Update(account);
-        if (!result)
+        if (result is 0)
         {
-            return StatusCode(500, "Error Retrieve from Database");
+            return StatusCode(500, "Error Retrieve from database");
         }
+
         return Ok("Update Success");
     }
 
     [HttpDelete]
     public IActionResult Delete(Guid guid)
     {
-        var data = _accountRepository.GetByGuid(guid);
-        if (data is null)
+        var result = _accountService.Delete(guid);
+
+        if (result is -1)
         {
-            return NotFound("Guid Is Not Found");
+            return NotFound("Guid is not found");
         }
 
-        var result = _accountRepository.Delete(data);
-        if (!result)
+        if (result is 0)
         {
-            return StatusCode(500, "Error Retrieve from Database");
+            return StatusCode(500, "Error Retrieve from database");
         }
+
         return Ok("Delete Success");
     }
 }
