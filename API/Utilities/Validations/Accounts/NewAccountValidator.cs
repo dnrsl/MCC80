@@ -23,7 +23,8 @@ public class NewAccountValidator : AbstractValidator<NewAccountDto>
             .NotEmpty().WithMessage("IsUsed is required");
 
         RuleFor(a => a.ExpiredTime)
-            .NotEmpty().WithMessage("Expired Date is required");
+            .NotEmpty().WithMessage("Expired Date is required")
+            .GreaterThanOrEqualTo(DateTime.Now).WithMessage("Expired date cannot be earlier than current date");
     }
 
     public bool HasCapitalLetter(string arg)
