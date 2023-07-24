@@ -11,6 +11,9 @@ namespace API.Utilities.Validations.Employees
         {
             _employeeRepository = employeeRepository;
 
+            RuleFor(a => a.Guid)
+                .NotEmpty().WithMessage("Guid is required");
+
             RuleFor(e => e.Nik)
                 .NotEmpty().WithMessage("Nik is required")
                 .MaximumLength(6).WithMessage("Maximum 6 characters allowed"); //tidak boleh lebih dari 6

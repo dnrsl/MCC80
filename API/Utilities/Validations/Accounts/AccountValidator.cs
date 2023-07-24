@@ -7,6 +7,9 @@ public class AccountValidator : AbstractValidator<AccountDto>
 {
     public AccountValidator()
     {
+        RuleFor(a => a.Guid)
+            .NotEmpty().WithMessage("Guid is required");
+
         RuleFor(a => a.Password)
             .NotEmpty().WithMessage("Password is required")
             .MinimumLength(8).WithMessage("Minimum 8 characters allowed")
