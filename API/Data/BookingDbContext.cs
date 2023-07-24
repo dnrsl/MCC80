@@ -36,7 +36,8 @@ public class BookingDbContext : DbContext
         modelBuilder.Entity<University>()
                     .HasMany(u => u.Educations)
                     .WithOne(e => e.University)
-                    .HasForeignKey(e => e.UniversityGuid); //
+                    .HasForeignKey(e => e.UniversityGuid);
+                    //.OnDelete(DeleteBehavior.Restrict);  untuk mengatur OnDelete
 
         //Many Education with One University (N:1) (bisa dibolak balik)
         /*  
