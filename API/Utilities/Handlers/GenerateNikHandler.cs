@@ -5,7 +5,7 @@ namespace API.Utilities.Handlers;
 public class GenerateNikHandler
 {
     //private readonly IEmployeeRepository _employeeRepository;
-    private int startNik = 0;
+    //private int startNik = 0;
 
     //public GenerateNikHandler(IEmployeeRepository employeeRepository)
     //{

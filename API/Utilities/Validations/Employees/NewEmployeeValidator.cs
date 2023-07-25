@@ -35,7 +35,7 @@ public class NewEmployeeValidator : AbstractValidator<NewEmployeeDto>
         RuleFor(e => e.PhoneNumber)
             .NotEmpty().WithMessage("Phone number is required")
             .MaximumLength(20).WithMessage("Maximum 20 characters allowed")
-            .Matches(@"^\+[0-9]+$")
+            .Matches(@"^\+[0-9]$")
             .Must(IsDuplicateValue).WithMessage("Phone number already exists");
     }
 
