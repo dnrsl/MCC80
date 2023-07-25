@@ -1,6 +1,7 @@
 ﻿using API.Contracts;
 using API.DTOs.Employees;
 using API.Models;
+using API.Utilities.Handlers;
 using FluentValidation;
 
 namespace API.Utilities.Validations.Employees;
@@ -11,10 +12,6 @@ public class NewEmployeeValidator : AbstractValidator<NewEmployeeDto>
     public NewEmployeeValidator(IEmployeeRepository employeeRepository)
     {
         _employeeRepository = employeeRepository;
-
-        RuleFor(e => e.Nik)
-            .NotEmpty().WithMessage("Nik is required")
-            .MaximumLength(6).WithMessage("Maximum 6 characters allowed"); //tidak boleh lebih dari 6
 
         RuleFor(e => e.FirstName)
             .NotEmpty().WithMessage("First name is required");

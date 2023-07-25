@@ -16,7 +16,8 @@ namespace API.Utilities.Validations.Employees
 
             RuleFor(e => e.Nik)
                 .NotEmpty().WithMessage("Nik is required")
-                .MaximumLength(6).WithMessage("Maximum 6 characters allowed"); //tidak boleh lebih dari 6
+                .MaximumLength(6).WithMessage("Maximum 6 characters allowed")
+                .Must(IsDuplicateValue).WithMessage("Nik is already exists"); //tidak boleh lebih dari 6
 
             RuleFor(e => e.FirstName)
                 .NotEmpty().WithMessage("First name is required");

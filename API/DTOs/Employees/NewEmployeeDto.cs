@@ -1,11 +1,11 @@
 ﻿using API.Models;
 using API.Utilities.Enums;
+using API.Utilities.Handlers;
 
 namespace API.DTOs.Employees;
 
 public class NewEmployeeDto
 {
-    public string Nik { get; set; }
     public string FirstName { get; set; }
     public string? LastName { get; set; }
     public DateTime BirthDate { get; set; }
@@ -14,12 +14,12 @@ public class NewEmployeeDto
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
 
+
     public static implicit operator Employee(NewEmployeeDto newEmployeeDto)
     {
         return new Employee
         {
             Guid = new Guid(),
-            Nik = newEmployeeDto.Nik,
             FirstName = newEmployeeDto.FirstName,
             LastName = newEmployeeDto.LastName,
             BirthDate = newEmployeeDto.BirthDate,
@@ -28,7 +28,7 @@ public class NewEmployeeDto
             Email = newEmployeeDto.Email,
             PhoneNumber = newEmployeeDto.PhoneNumber,
             CreatedDate = DateTime.Now,
-            ModifiedDate = DateTime.Now
+            ModifiedDate = DateTime.Now,
         };
     }
 

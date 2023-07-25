@@ -15,7 +15,7 @@ public class NewBookingValidator : AbstractValidator<NewBookingDto>
         RuleFor(b => b.EndDate)
             .NotEmpty().WithMessage("End Date is required")
             .GreaterThanOrEqualTo(DateTime.Now).WithMessage("End date cannot be earlier than current date")
-            .GreaterThanOrEqualTo(b => b.StartDate).WithMessage("End date cannot be earlier than start date"); ;
+            .GreaterThanOrEqualTo(b => b.StartDate).WithMessage("End date cannot be earlier than start date");
 
         RuleFor(b => b.Status)
             .NotNull().WithMessage("Status is required")

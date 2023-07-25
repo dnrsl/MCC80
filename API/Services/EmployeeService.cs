@@ -2,6 +2,7 @@
 using API.DTOs.Employees;
 using API.DTOs.Universities;
 using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.Services;
 
@@ -43,7 +44,10 @@ public class EmployeeService
 
     public EmployeeDto? Create(NewEmployeeDto newEmployeeDto)
     {
-        var employee = _employeeRepository.Create(newEmployeeDto);
+        
+        Employee newNik = newEmployeeDto;
+        newNik.Nik = GenerateNikHandler.GenereateNewNik(_employeeRepository.GetLastNik());
+        var employee = _employeeRepository.Create(newNik);
         if (employee is null)
         {
             return null;

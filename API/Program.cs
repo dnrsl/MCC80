@@ -2,6 +2,7 @@ using API.Contracts;
 using API.Data;
 using API.Repositories;
 using API.Services;
+using API.Utilities.Handlers;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Connections;
@@ -35,6 +36,9 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<EducationService>();
 builder.Services.AddScoped<BookingService>();
+builder.Services.AddScoped<GenerateNikHandler>();
+
+builder.Services.AddSingleton<GenerateNikHandler>();
 
 // Register FluentValidation
 builder.Services.AddFluentValidationAutoValidation()
@@ -45,6 +49,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
