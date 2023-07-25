@@ -30,6 +30,7 @@ public class UniversityController : ControllerBase
                 Message = "No Data Found"
             });
         }
+
         return Ok(new ResponseHandler<IEnumerable<UniversityDto>>
         {
             Code = StatusCodes.Status200OK,
@@ -140,6 +141,7 @@ public class UniversityController : ControllerBase
                 Message = "Error Retrieve from database"
             });
         }
+
         return Ok(new ResponseHandler<UniversityDto>
         {
             Code = StatusCodes.Status200OK,
