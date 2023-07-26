@@ -31,6 +31,8 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
         return _context.Set<Employee>().SingleOrDefault(e => e.Email.Contains(email));
     }
 
+
+
     //public bool SameOrIsExist(string value2)
     //{
     //    var employees = _context.Set<Employee>()

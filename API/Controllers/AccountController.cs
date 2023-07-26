@@ -178,4 +178,27 @@ public class AccountController : ControllerBase
             Message = "Login Success"
         });
     }
+
+    [HttpPost("register")]
+    public IActionResult register (RegisterDto registerDto)
+    {
+        var result = _accountService.Register(registerDto);
+        if (result is null)
+        {
+            return StatusCode(500, new ResponseHandler<RegisterDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error Retrieve from database"
+            });
+        }
+
+        return Ok(new ResponseHandler<RegisterDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success to register",
+            Data = registerDto
+        });
+    }
 }
