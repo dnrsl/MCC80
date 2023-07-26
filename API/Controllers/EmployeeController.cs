@@ -89,12 +89,12 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update(EmployeeDto employeeDto)
+    public IActionResult Update(UpdateEmployeeDto updateEmployeeDto)
     {
-        var result = _employeeService.Update(employeeDto);
+        var result = _employeeService.Update(updateEmployeeDto);
         if (result is -1)
         {
-            return NotFound(new ResponseHandler<UniversityDto>
+            return NotFound(new ResponseHandler<UpdateEmployeeDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -104,7 +104,7 @@ public class EmployeeController : ControllerBase
 
         if (result is 0)
         {
-            return StatusCode(500, new ResponseHandler<UniversityDto>
+            return StatusCode(500, new ResponseHandler<UpdateEmployeeDto>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
@@ -112,7 +112,7 @@ public class EmployeeController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<UniversityDto>
+        return Ok(new ResponseHandler<UpdateEmployeeDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
@@ -126,7 +126,7 @@ public class EmployeeController : ControllerBase
         var result = _employeeService.Delete(guid);
         if (result is -1)
         {
-            return NotFound(new ResponseHandler<UniversityDto>
+            return NotFound(new ResponseHandler<EmployeeDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -136,7 +136,7 @@ public class EmployeeController : ControllerBase
 
         if (result is 0)
         {
-            return StatusCode(500, new ResponseHandler<UniversityDto>
+            return StatusCode(500, new ResponseHandler<EmployeeDto>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
@@ -144,7 +144,7 @@ public class EmployeeController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<UniversityDto>
+        return Ok(new ResponseHandler<EmployeeDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),

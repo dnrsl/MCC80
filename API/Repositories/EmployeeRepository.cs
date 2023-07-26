@@ -3,6 +3,7 @@ using API.Data;
 using API.Models;
 using API.Utilities.Handlers;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.Repositories;
 
@@ -22,7 +23,23 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
     {
         var employees = _context.Set<Employee>()
                        .ToList().LastOrDefault().Nik;
-        //var lastNik = employees.Any() ? employees.Max(e => int.Parse(e.Nik)) : 0;
         return employees;
     }
+
+    public Employee? GetByEmail(string email)
+    {
+        return _context.Set<Employee>().SingleOrDefault(e => e.Email.Contains(email));
+    }
+
+    //public bool SameOrIsExist(string value2)
+    //{
+    //    var employees = _context.Set<Employee>()
+    //                   .SingleOrDefault(e => e.Email.Contains(value2) || e.PhoneNumber.Contains(value2)) is null;
+    //    if (employees == null)
+    //    {
+    //        return false;
+    //    }
+
+    //    return true;
+    //}
 }

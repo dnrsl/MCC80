@@ -5,6 +5,7 @@ using API.Models;
 using API.Repositories;
 using API.Services;
 using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -152,6 +153,29 @@ public class AccountController : ControllerBase
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
             Message = "Delete Success"
+        });
+    }
+
+    [HttpPost("login")]
+    public IActionResult Login (LoginDto loginDto)
+    {
+        var result = _accountService.login(loginDto);
+
+        if (result is 0)
+        {
+            return NotFound(new ResponseHandler<LoginDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Email or Password is incorrect"
+            });
+        }
+
+        return Ok(new ResponseHandler<LoginDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Login Success"
         });
     }
 }

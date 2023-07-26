@@ -16,8 +16,7 @@ namespace API.Utilities.Validations.Employees
 
             RuleFor(e => e.Nik)
                 .NotEmpty().WithMessage("Nik is required")
-                .MaximumLength(6).WithMessage("Maximum 6 characters allowed")
-                .Must(IsDuplicateValue).WithMessage("Nik is already exists"); //tidak boleh lebih dari 6
+                .MaximumLength(6).WithMessage("Maximum 6 characters allowed");
 
             RuleFor(e => e.FirstName)
                 .NotEmpty().WithMessage("First name is required");
@@ -33,10 +32,12 @@ namespace API.Utilities.Validations.Employees
             RuleFor(e => e.HiringDate)
                 .NotEmpty().WithMessage("Hiring date is required");
 
+
             RuleFor(e => e.Email)
                 .NotEmpty().WithMessage("Email is required")
                 .EmailAddress().WithMessage("Email is not valid")
                 .Must(IsDuplicateValue).WithMessage("Email already exists");
+
 
             RuleFor(e => e.PhoneNumber)
                 .NotEmpty().WithMessage("Phone number is required")
@@ -51,5 +52,7 @@ namespace API.Utilities.Validations.Employees
 
             return _employeeRepository.IsNotExist(arg);
         }
+
+
     }
 }

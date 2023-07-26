@@ -7,9 +7,11 @@ namespace API.Services;
 public class AccountService
 {
     private readonly IAccountRepository _accountRepository;
+    private readonly IEmployeeRepository _employeeRepository;
 
-    public AccountService (IAccountRepository accountRepository)
+    public AccountService (IAccountRepository accountRepository, IEmployeeRepository employeeRepository)
     {
+        _employeeRepository = employeeRepository;
         _accountRepository = accountRepository;
     }
 
@@ -77,5 +79,24 @@ public class AccountService
 
         var result = _accountRepository.Delete(account);
         return result ? 1 : 0;
+    }
+
+    public int login(LoginDto loginDto)
+    {
+        var getEmployee = _employeeRepository.GetByEmail(loginDto.Email);
+
+        if(getEmployee is null)
+        {
+            return 0;
+        }
+
+        var getAccount = _accountRepository.GetByGuid(getEmployee.Guid);
+
+        if (getAccount.Password == loginDto.Password)
+        {
+            return 1;
+        }
+
+        return 0;
     }
 }
