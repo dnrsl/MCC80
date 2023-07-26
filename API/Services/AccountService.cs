@@ -3,6 +3,7 @@ using API.DTOs.Accounts;
 using API.Models;
 using API.Repositories;
 using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
 
 namespace API.Services;
@@ -184,5 +185,75 @@ public class AccountService
         }
 
         return registerDto;
+    }
+
+    
+    public int ForgotPassword (ForgotPasswordDto forgotPasswordDto)
+    {
+        var getEmployee = _employeeRepository.GetByEmail(forgotPasswordDto.Email);
+
+        if (getEmployee is null)
+        {
+            return 0;
+        }
+
+        var otp = GenerateOtp.Otp();
+
+        var updateAccount = _accountRepository.GetByGuid(getEmployee.Guid);
+
+        if (updateAccount is null)
+        {
+            return 0;
+        }
+        
+        updateAccount.Otp = Convert.ToInt32(otp);
+        updateAccount.ExpiredTime = DateTime.Now.AddMinutes(5);
+        updateAccount.IsUsed = false;
+        _accountRepository.Update(updateAccount);
+
+        forgotPasswordDto.Email = $"{otp}";
+
+        return 1;
+    }
+
+    public int ChangePassword (ChangePasswordDto changePasswordDto)
+    {
+        var getEmployee = _employeeRepository.GetByEmail(changePasswordDto.Email);
+        if(getEmployee is null)
+        {
+            return 0;
+        }
+
+        var getAccount = _accountRepository.GetByGuid(getEmployee.Guid);
+        if(getAccount.IsUsed is true)
+        {
+            return -1;
+        }
+
+        var getOtp = Convert.ToString(getAccount.Otp);
+
+        if(getOtp != changePasswordDto.Otp)
+        {
+            return -2;
+        }
+
+        if(getAccount.ExpiredTime <= DateTime.Now)
+        {
+            return -3;
+        }
+
+        if(changePasswordDto.NewPassword != changePasswordDto.ConfirmPassword)
+        {
+            return -4;
+        }
+
+        getAccount.Password = changePasswordDto.NewPassword;
+        getAccount.Otp = getAccount.Otp;
+        getAccount.ExpiredTime = DateTime.Now;
+        getAccount.IsUsed = true;
+
+        _accountRepository.Update(getAccount);
+
+        return 1;
     }
 }
