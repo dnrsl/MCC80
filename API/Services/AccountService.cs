@@ -110,6 +110,24 @@ public class AccountService
 
     public RegisterDto? Register(RegisterDto registerDto)
     {
+
+        var existingUniversity = _universityRepository.GetByCode(registerDto.UniversityCode);
+
+
+        if (existingUniversity is null)
+        {
+            var university = new University
+            {
+                Guid = new Guid(),
+                Code = registerDto.UniversityCode,
+                Name = registerDto.UniversityName,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+            };
+
+            _universityRepository.Create(university);
+        }
+
         var newEmployee = new Employee
         {
             Nik = GenerateNikHandler.GenereateNewNik(_employeeRepository.GetLastNik()),
@@ -130,22 +148,7 @@ public class AccountService
             return null;
         }
 
-        var existingUniversity = _universityRepository.GetByCode(registerDto.UniversityCode);
-
-
-        if (existingUniversity is null)
-        {
-            var university = new University
-            {
-                Guid = new Guid(),
-                Code = registerDto.UniversityCode,
-                Name = registerDto.UniversityName,
-                CreatedDate = createdEmployee.CreatedDate,
-                ModifiedDate = createdEmployee.ModifiedDate,
-            };
-
-            _universityRepository.Create(university);
-        }
+        
 
         var newEducation = new Education
         {
@@ -154,8 +157,8 @@ public class AccountService
             Major = registerDto.Major,
             Degree = registerDto.Degree,
             Gpa = registerDto.Gpa,
-            CreatedDate = createdEmployee.CreatedDate,
-            ModifiedDate = createdEmployee.ModifiedDate,
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now,
         };
 
         var createdEducation = _educationRepository.Create(newEducation);
