@@ -238,6 +238,7 @@ public class AccountService
 
     public int ChangePassword (ChangePasswordDto changePasswordDto)
     {
+        /*
         var getEmployee = _employeeRepository.GetByEmail(changePasswordDto.Email);
         if(getEmployee is null)
         {
@@ -273,6 +274,52 @@ public class AccountService
         getAccount.IsUsed = true;
 
         _accountRepository.Update(getAccount);
+
+        return 1;
+        */
+        var getAccountDetail = (from e in _employeeRepository.GetAll()
+                                join a in _accountRepository.GetAll() on e.Guid equals a.Guid
+                                where e.Email == changePasswordDto.Email
+                                select a).FirstOrDefault();
+
+        _accountRepository.Clear();
+        if (getAccountDetail is null)
+        {
+            return 0; //Email is incorrect
+        }
+
+        var account = new Account
+        {
+            Guid = getAccountDetail.Guid,
+            Password = changePasswordDto.NewPassword,
+            Otp = Convert.ToInt32(changePasswordDto.Otp),
+            ExpiredTime = getAccountDetail.ExpiredTime,
+            IsUsed = true,
+            CreatedDate = getAccountDetail.CreatedDate,
+            ModifiedDate = DateTime.Now,
+        };
+
+        _accountRepository.Update(account);
+        var getOtp = Convert.ToString(getAccountDetail.Otp);
+        if (getOtp != changePasswordDto.Otp)
+        {
+            return -1; //Invalid Otp
+        }
+
+        if(getAccountDetail.ExpiredTime <= DateTime.Now)
+        {
+            return -2; //Otp has been expired
+        }
+
+        if(getAccountDetail.IsUsed is true)
+        {
+            return -3; //Otp is already used
+        }
+
+        if(changePasswordDto.NewPassword != changePasswordDto.ConfirmPassword)
+        {
+            return -4; //Password is not match
+        }
 
         return 1;
     }

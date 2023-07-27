@@ -247,7 +247,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Otp is already used"
+                Message = "Invalid Otp"
             });
         }
 
@@ -257,7 +257,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Invalid Otp"
+                Message = "Otp has been expired"
             });
         }
 
@@ -267,7 +267,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "OTP expired"
+                Message = "Otp is already used"
             });
         }
 
