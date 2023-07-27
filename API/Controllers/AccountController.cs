@@ -223,7 +223,7 @@ public class AccountController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Success to send otp"
+            Message = "Success to send otp, please check your email"
         }); ;
     }
 

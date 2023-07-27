@@ -191,6 +191,7 @@ public class AccountService
     
     public int ForgotPassword (ForgotPasswordDto forgotPasswordDto)
     {
+        /*
         var getEmployee = _employeeRepository.GetByEmail(forgotPasswordDto.Email);
 
         if (getEmployee is null)
@@ -198,7 +199,6 @@ public class AccountService
             return 0;
         }
 
-        var otp = GenerateOtp.Otp();
 
         var updateAccount = _accountRepository.GetByGuid(getEmployee.Guid);
 
@@ -206,14 +206,33 @@ public class AccountService
         {
             return 0;
         }
-        
-        updateAccount.Otp = Convert.ToInt32(otp);
-        updateAccount.ExpiredTime = DateTime.Now.AddMinutes(5);
-        updateAccount.IsUsed = false;
-        _accountRepository.Update(updateAccount);
+        */
 
-        //forgotPasswordDto.Email = $"{otp}";
+        var getAccountDetail = (from e in _employeeRepository.GetAll()
+                               join a in _accountRepository.GetAll() on e.Guid equals a.Guid
+                               where e.Email == forgotPasswordDto.Email
+                               select a).FirstOrDefault();
 
+        _accountRepository.Clear();
+
+        if (getAccountDetail is null)
+        {
+            return 0;
+        }
+
+        var otp = GenerateOtp.Otp();
+        var account = new Account
+        {
+            Guid = getAccountDetail.Guid,
+            Password = getAccountDetail.Password,
+            Otp = Convert.ToInt32(otp),
+            ExpiredTime = DateTime.Now.AddMinutes(5),
+            IsUsed = false,
+            CreatedDate = getAccountDetail.CreatedDate,
+            ModifiedDate = DateTime.Now
+        };
+
+        _accountRepository.Update(account);
         return 1;
     }
 

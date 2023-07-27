@@ -9,4 +9,8 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
 {
     public AccountRepository(BookingDbContext context) : base(context) { }
 
+    public void Clear()
+    {
+        _context.ChangeTracker.Clear();
+    }
 }
