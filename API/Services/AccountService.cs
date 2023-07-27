@@ -130,15 +130,24 @@ public class AccountService
             return null;
         }
 
+        University university;
 
-        University university = new University
+        var existingUniversity = _universityRepository.GetByCode(registerDto.UniversityCode);
+
+
+        if (existingUniversity is null)
         {
-            Guid = new Guid(),
-            Code = registerDto.UniversityCode,
-            Name = registerDto.UniversityName,
-            CreatedDate = createdEmployee.CreatedDate,
-            ModifiedDate = createdEmployee.ModifiedDate,
-        };
+            university = new University
+            {
+                Guid = new Guid(),
+                Code = registerDto.UniversityCode,
+                Name = registerDto.UniversityName,
+                CreatedDate = createdEmployee.CreatedDate,
+                ModifiedDate = createdEmployee.ModifiedDate,
+            };
+        }
+
+        university = existingUniversity;
 
         var createdUniversity = _universityRepository.Create(university);
         if (createdUniversity is null)
@@ -211,7 +220,7 @@ public class AccountService
         updateAccount.IsUsed = false;
         _accountRepository.Update(updateAccount);
 
-        forgotPasswordDto.Email = $"{otp}";
+        //forgotPasswordDto.Email = $"{otp}";
 
         return 1;
     }

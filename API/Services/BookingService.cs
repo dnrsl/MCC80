@@ -9,10 +9,12 @@ public class BookingService
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly IRoomRepository _roomRepository;
-    public BookingService(IBookingRepository bookingRepository, IRoomRepository roomRepository)
+    private readonly IEmployeeRepository _employeeRepository;
+    public BookingService(IBookingRepository bookingRepository, IRoomRepository roomRepository, IEmployeeRepository employeeRepository)
     {
         _bookingRepository = bookingRepository;
         _roomRepository = roomRepository;
+        _employeeRepository = employeeRepository;
     }
 
     public IEnumerable<BookingDto> GetAll()
@@ -152,5 +154,80 @@ public class BookingService
             return null;
         }
         return listBookingLength;
+    }
+
+    public IEnumerable<DetailBookingDto> GetAllBookingDetail()
+    {
+        var resultBooking = _bookingRepository.GetAll();
+        if (!resultBooking.Any())
+        {
+            return Enumerable.Empty<DetailBookingDto>();
+        }
+
+        var detailDtos = new List<DetailBookingDto>();
+        foreach ( var result in resultBooking)
+        {
+            var resultEmployee = _employeeRepository.GetByGuid(result.EmployeeGuid);
+            if (resultEmployee != null)
+            {
+                return Enumerable.Empty<DetailBookingDto>();
+            }
+
+            var resultRoom = _roomRepository.GetByGuid(result.RoomGuid);
+            if (resultRoom != null)
+            {
+                return Enumerable.Empty<DetailBookingDto>();
+            }
+
+            var toDto = new DetailBookingDto
+            {
+                BookingGuid = result.Guid,
+                BookedNik = resultEmployee.Nik,
+                BookedBy = resultEmployee.FirstName+" "+resultEmployee.LastName,
+                RoomName = resultRoom.Name,
+                StartDate = result.StartDate,
+                EndDate = result.EndDate,
+                Remarks = result.Remarks,
+            };
+
+            detailDtos.Add(toDto);
+        }
+
+        return detailDtos;
+    }
+
+    public DetailBookingDto? GetDetailBookingByGuid(Guid guid)
+    {
+        var resultBooking = _bookingRepository.GetByGuid(guid);
+        if (resultBooking is null )
+        {
+            return null;
+        }
+
+        var resultEmployee = _employeeRepository.GetByGuid(resultBooking.EmployeeGuid);
+        if (resultEmployee is null )
+        {
+            return null;
+        }
+
+        var resultRoom = _roomRepository.GetByGuid(resultBooking.RoomGuid);
+        if (resultRoom is null)
+        {
+            return null;
+        }
+
+        var toDto = new DetailBookingDto
+        {
+            BookingGuid = resultBooking.Guid,
+            BookedNik = resultEmployee.Nik,
+            BookedBy = resultEmployee.FirstName + " " + resultEmployee.LastName,
+            RoomName = resultRoom.Name,
+            StartDate = resultBooking.StartDate,
+            EndDate = resultBooking.EndDate,
+            Status = resultBooking.Status,
+            Remarks = resultBooking.Remarks
+        };
+
+        return toDto;
     }
 }
