@@ -31,6 +31,13 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
         return _context.Set<Employee>().SingleOrDefault(e => e.Email.Contains(email));
     }
 
+    public Guid GetLastEmployeeGuid()
+    {
+        return _context.Set<Employee>()
+                       .ToList()
+                       .LastOrDefault().Guid;
+    }
+
 
 
     //public bool SameOrIsExist(string value2)
