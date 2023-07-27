@@ -130,14 +130,12 @@ public class AccountService
             return null;
         }
 
-        University university;
-
         var existingUniversity = _universityRepository.GetByCode(registerDto.UniversityCode);
 
 
         if (existingUniversity is null)
         {
-            university = new University
+            var university = new University
             {
                 Guid = new Guid(),
                 Code = registerDto.UniversityCode,
@@ -145,20 +143,14 @@ public class AccountService
                 CreatedDate = createdEmployee.CreatedDate,
                 ModifiedDate = createdEmployee.ModifiedDate,
             };
-        }
 
-        university = existingUniversity;
-
-        var createdUniversity = _universityRepository.Create(university);
-        if (createdUniversity is null)
-        {
-            return null;
+            _universityRepository.Create(university);
         }
 
         var newEducation = new Education
         {
             Guid = createdEmployee.Guid,
-            UniversityGuid = university.Guid,
+            UniversityGuid = existingUniversity.Guid,
             Major = registerDto.Major,
             Degree = registerDto.Degree,
             Gpa = registerDto.Gpa,

@@ -151,7 +151,7 @@ public class BookingController : ControllerBase
         });
     }
 
-    [HttpGet("free-room-todays")]
+    [HttpGet("available")]
     public IActionResult FreeRooomToday()
     {
         var result = _bookingService.FreeRoomsToday();
@@ -174,7 +174,7 @@ public class BookingController : ControllerBase
         });
     }
 
-    [HttpGet("booking-length")]
+    [HttpGet("length")]
     public IActionResult BookingLength()
     {
         var result = _bookingService.BookingLength();
@@ -197,7 +197,7 @@ public class BookingController : ControllerBase
         });
     }
 
-    [HttpGet("detail-booking")]
+    [HttpGet("detail")]
     public IActionResult GetALlDetailBooking()
     {
         var result = _bookingService.GetAllBookingDetail();
@@ -220,7 +220,7 @@ public class BookingController : ControllerBase
         });
     }
 
-    [HttpPost("detail-booking/{guid}")]
+    [HttpPost("detail/{guid}")]
     public IActionResult GetDetailBookingByGuid(Guid guid)
     {
         var result = _bookingService.GetDetailBookingByGuid(guid);
