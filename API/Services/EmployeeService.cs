@@ -3,6 +3,7 @@ using API.DTOs.Employees;
 using API.DTOs.Universities;
 using API.Models;
 using API.Utilities.Handlers;
+using System;
 
 namespace API.Services;
 
@@ -89,6 +90,7 @@ public class EmployeeService
 
     public IEnumerable<EmployeeDetailDto> GetAllEmployeeDetail()
     {
+        /*
         var employees = _employeeRepository.GetAll();
         if (!employees.Any())
         {
@@ -121,10 +123,33 @@ public class EmployeeService
             employeeDetailDto.Add(employeeDetail);
         }
         return employeeDetailDto;
+        */
+
+        var result = from employee in _employeeRepository.GetAll()
+                      join education in _educationRepository.GetAll() on employee.Guid equals education.Guid
+                      join university in _universityRepository.GetAll() on education.UniversityGuid equals university.Guid
+                      select new EmployeeDetailDto
+                      {
+                          EmployeeGuid = employee.Guid,
+                          Nik = employee.Nik,
+                          FullName = employee.FirstName + " " + employee.LastName,
+                          BirthDate = employee.BirthDate,
+                          Gender = employee.Gender,
+                          HiringDate = employee.HiringDate,
+                          Email = employee.Email,
+                          PhoneNumber = employee.PhoneNumber,
+                          Major = education.Major,
+                          Degree = education.Degree,
+                          Gpa = education.Gpa,
+                          UniversityName = university.Name
+                      };
+
+        return result;
     }
 
     public EmployeeDetailDto? GetEmployeeDetailByGuid (Guid guid)
     {
+        /*
         var employee = _employeeRepository.GetByGuid(guid);
 
         if (employee is null)
@@ -150,5 +175,7 @@ public class EmployeeService
             Gpa = education.Gpa,
             UniversityName = university.Name
         };
+        */
+        return GetAllEmployeeDetail().SingleOrDefault(e => e.EmployeeGuid == guid);
     }
 }
