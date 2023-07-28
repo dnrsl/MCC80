@@ -13,10 +13,16 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
     {
     }
 
+    //public bool IsNotExist(string value)
+    //{
+    //    return _context.Set<Employee>()
+    //                   .SingleOrDefault(e => e.Email.Contains(value) || e.PhoneNumber.Contains(value)) is null;
+    //}
+
     public bool IsNotExist(string value)
     {
         return _context.Set<Employee>()
-                       .SingleOrDefault(e => e.Email.Contains(value) || e.PhoneNumber.Contains(value)) is null;
+                       .FirstOrDefault(e => e.Email == value || e.PhoneNumber == value) is null;
     }
 
     public string GetLastNik()

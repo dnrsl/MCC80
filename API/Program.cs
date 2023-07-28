@@ -15,23 +15,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers()
-    .ConfigureApiBehaviorOptions(options =>
-    {
-        options.InvalidModelStateResponseFactory = _context =>
-        {
-            var errors = _context.ModelState.Values
-                                 .SelectMany(v => v.Errors)
-                                 .Select(v => v.ErrorMessage);
+       .ConfigureApiBehaviorOptions(options =>
+       {
+           options.InvalidModelStateResponseFactory = _context =>
+           {
+               var errors = _context.ModelState.Values
+                                    .SelectMany(v => v.Errors)
+                                    .Select(v => v.ErrorMessage);
 
-            return new BadRequestObjectResult(new ResponseValidationHandler
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Validation Error",
-                Errors = errors.ToArray()
-            });
-        };
-    });
+               return new BadRequestObjectResult(new ResponseValidationHandler
+               {
+                   Code = StatusCodes.Status400BadRequest,
+                   Status = HttpStatusCode.BadRequest.ToString(),
+                   Message = "Validation Error",
+                   Errors = errors.ToArray()
+               });
+           };
+       });
 
 
 

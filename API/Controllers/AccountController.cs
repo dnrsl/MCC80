@@ -185,13 +185,23 @@ public class AccountController : ControllerBase
     public IActionResult Register (RegisterDto registerDto)
     {
         var result = _accountService.Register(registerDto);
-        if (result is null)
+        if (result is 0)
         {
             return StatusCode(500, new ResponseHandler<RegisterDto>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
                 Message = "Error Retrieve from database"
+            });
+        }
+
+        else if (result is -1)
+        {
+            return BadRequest(new ResponseHandler<RegisterDto>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Your password is not match"
             });
         }
 
@@ -215,7 +225,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Email is incorrect"
+                Message = "Email is incorrect "
             });
         }
 

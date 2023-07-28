@@ -1,10 +1,13 @@
 ﻿using API.Contracts;
+using API.Data;
 using API.DTOs.Accounts;
 using API.Models;
 using API.Repositories;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
+using System.Transactions;
 
 namespace API.Services;
 
@@ -14,13 +17,15 @@ public class AccountService
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEducationRepository _educationRepository;
     private readonly IUniversityRepository _universityRepository;
+    private readonly BookingDbContext _bookingDbContext;
 
-    public AccountService (IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IEducationRepository educationRepository, IUniversityRepository universityRepository)
+    public AccountService (IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IEducationRepository educationRepository, IUniversityRepository universityRepository, BookingDbContext bookingDbContext)
     {
         _employeeRepository = employeeRepository;
         _accountRepository = accountRepository;
         _educationRepository = educationRepository;
         _universityRepository = universityRepository;
+        _bookingDbContext = bookingDbContext;
     }
 
     public IEnumerable<AccountDto> GetAll()
@@ -115,90 +120,79 @@ public class AccountService
         return 0;
     }
 
-    public RegisterDto? Register(RegisterDto registerDto)
+    public int Register(RegisterDto registerDto)
     {
+        using var transaction = _bookingDbContext.Database.BeginTransaction();
 
-        var existingUniversity = _universityRepository.GetByCode(registerDto.UniversityCode);
-
-
-        if (existingUniversity is null)
+        try
         {
-            var university = new University
+            var existingUniversity = _universityRepository.GetByCode(registerDto.UniversityCode);
+
+            if (existingUniversity is null)
             {
-                Guid = new Guid(),
-                Code = registerDto.UniversityCode,
-                Name = registerDto.UniversityName,
+                var university = _universityRepository.Create(new University
+                {
+                    Guid = new Guid(),
+                    Code = registerDto.UniversityCode,
+                    Name = registerDto.UniversityName,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                });
+
+                existingUniversity = university; 
+            }
+
+            var createdEmployee = _employeeRepository.Create(new Employee
+            {
+                Nik = GenerateNikHandler.GenereateNewNik(_employeeRepository.GetLastNik()),
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                BirthDate = registerDto.BirthDate,
+                Gender = registerDto.Gender,
+                HiringDate = registerDto.HiringDate,
+                Email = registerDto.Email,
+                PhoneNumber = registerDto.PhoneNumber,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
-            };
+            });
 
-            _universityRepository.Create(university);
+            var createdEducation = _educationRepository.Create(new Education
+            {
+                Guid = createdEmployee.Guid,
+                UniversityGuid = existingUniversity.Guid,
+                Major = registerDto.Major,
+                Degree = registerDto.Degree,
+                Gpa = registerDto.Gpa,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+            });
+
+            if (registerDto.Password != registerDto.RepeatPassword)
+            {
+                transaction.Rollback();
+                return -1;
+            }
+
+            var HashedPassword = HashingHandler.GenerateHash(registerDto.Password);
+
+            var createdAccount = _accountRepository.Create(new Account
+            {
+                Guid = createdEmployee.Guid,
+                //Password = registerDto.Password,
+                Password = HashedPassword, //diubah dengan teknik hash
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+            });
+
+            transaction.Commit();
+            return 1;
         }
-
-        var newEmployee = new Employee
+        catch
         {
-            Nik = GenerateNikHandler.GenereateNewNik(_employeeRepository.GetLastNik()),
-            FirstName = registerDto.FirstName,
-            LastName = registerDto.LastName,
-            BirthDate = registerDto.BirthDate,
-            Gender = registerDto.Gender,
-            HiringDate = registerDto.HiringDate,
-            Email = registerDto.Email,
-            PhoneNumber = registerDto.PhoneNumber,
-            CreatedDate = DateTime.Now,
-            ModifiedDate = DateTime.Now,
-        };
-
-        var createdEmployee = _employeeRepository.Create(newEmployee);
-        if (createdEmployee is null)
-        {
-            return null;
+            transaction.Rollback();
+            return 0;
         }
-
         
-
-        var newEducation = new Education
-        {
-            Guid = createdEmployee.Guid,
-            UniversityGuid = existingUniversity.Guid,
-            Major = registerDto.Major,
-            Degree = registerDto.Degree,
-            Gpa = registerDto.Gpa,
-            CreatedDate = DateTime.Now,
-            ModifiedDate = DateTime.Now,
-        };
-
-        var createdEducation = _educationRepository.Create(newEducation);
-        if (createdEducation is null)
-        {
-            _employeeRepository.Delete(createdEmployee);
-            return null;
-        }
-
-        if (registerDto.Password != registerDto.RepeatPassword)
-        {
-            return null;
-        }
-
-        var HashedPassword = HashingHandler.GenerateHash(registerDto.Password);
-
-        var newAccount = new Account
-        {
-            Guid = createdEmployee.Guid,
-            //Password = registerDto.Password,
-            Password = HashedPassword, //diubah dengan teknik hash
-            CreatedDate = DateTime.Now,
-            ModifiedDate = DateTime.Now,
-        };        
-
-        var createdAccount = _accountRepository.Create(newAccount);
-        if (createdAccount is null)
-        {
-            _employeeRepository.Delete(createdEmployee);
-            return null;
-        }
-
-        return registerDto;
     }
 
     
