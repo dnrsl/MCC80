@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.DTOs.Accounts;
 
@@ -15,7 +16,8 @@ public class AccountDto
         return new Account
         {
             Guid = accountDto.Guid,
-            Password = accountDto.Password,
+            //Password = accountDto.Password,
+            Password = HashingHandler.GenerateHash(accountDto.Password),
             Otp = accountDto.Otp,
             IsUsed = accountDto.IsUsed,
             ExpiredTime = accountDto.ExpiredTime,
@@ -28,7 +30,8 @@ public class AccountDto
         return new AccountDto
         {
             Guid = account.Guid,
-            Password = account.Password,
+            //Password = account.Password,
+            Password = HashingHandler.GenerateHash(account.Password),
             Otp = account.Otp,
             IsUsed = account.IsUsed,
             ExpiredTime = account.ExpiredTime
