@@ -168,18 +168,21 @@ public class AccountService
             return null;
         }
 
-        var newAccount = new Account
-        {
-            Guid = createdEmployee.Guid,
-            Password = registerDto.Password,
-            CreatedDate = createdEmployee.CreatedDate,
-            ModifiedDate = createdEmployee.ModifiedDate,
-        };
-
         if (registerDto.Password != registerDto.RepeatPassword)
         {
             return null;
         }
+
+        var HashedPassword = HashingHandler.GenerateHash(registerDto.Password);
+
+        var newAccount = new Account
+        {
+            Guid = createdEmployee.Guid,
+            //Password = registerDto.Password,
+            Password = HashedPassword, //diubah dengan teknik hash
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now,
+        };        
 
         var createdAccount = _accountRepository.Create(newAccount);
         if (createdAccount is null)
@@ -291,18 +294,8 @@ public class AccountService
             return 0; //Email is incorrect
         }
 
-        var account = new Account
-        {
-            Guid = getAccountDetail.Guid,
-            Password = changePasswordDto.NewPassword,
-            Otp = Convert.ToInt32(changePasswordDto.Otp),
-            ExpiredTime = getAccountDetail.ExpiredTime,
-            IsUsed = true,
-            CreatedDate = getAccountDetail.CreatedDate,
-            ModifiedDate = DateTime.Now,
-        };
+       
 
-        _accountRepository.Update(account);
         var getOtp = Convert.ToString(getAccountDetail.Otp);
         if (getOtp != changePasswordDto.Otp)
         {
@@ -324,6 +317,21 @@ public class AccountService
             return -4; //Password is not match
         }
 
+        var hashedPassword = HashingHandler.GenerateHash(changePasswordDto.NewPassword);
+
+        var account = new Account
+        {
+            Guid = getAccountDetail.Guid,
+            //Password = changePasswordDto.NewPassword,
+            Password = hashedPassword,
+            Otp = Convert.ToInt32(changePasswordDto.Otp),
+            ExpiredTime = getAccountDetail.ExpiredTime,
+            IsUsed = true,
+            CreatedDate = getAccountDetail.CreatedDate,
+            ModifiedDate = DateTime.Now,
+        };
+
+        _accountRepository.Update(account);
         return 1;
     }
 }
