@@ -1,4 +1,5 @@
 ﻿using API.Contracts;
+using API.DTOs.Bookings;
 using API.DTOs.Roles;
 using API.DTOs.Rooms;
 using API.DTOs.Universities;
@@ -152,29 +153,5 @@ public class RoomController : ControllerBase
             Status = HttpStatusCode.OK.ToString(),
             Message = "Delete Success"
         });
-    }
-
-    [HttpGet("Booked")]
-    public IActionResult GetAllBookedBy()
-    {
-        var result = _roomService.GetAllBookedBy();
-        if (!result.Any())
-        {
-            return NotFound(new ResponseHandler<RoomBookedByDto>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No bookings have been made today."
-            });
-        }
-
-        return Ok(new ResponseHandler<IEnumerable<RoomBookedByDto>>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Success retrieve data",
-            Data = result
-        });
-
     }
 }

@@ -151,6 +151,30 @@ public class BookingController : ControllerBase
         });
     }
 
+    [HttpGet("booked-today")]
+    public IActionResult GetAllBookedBy()
+    {
+        var result = _bookingService.GetAllBookedBy();
+        if (!result.Any())
+        {
+            return NotFound(new ResponseHandler<BookedByDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No bookings have been made today."
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<BookedByDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieve data",
+            Data = result
+        });
+
+    }
+
     [HttpGet("available")]
     public IActionResult FreeRooomToday()
     {

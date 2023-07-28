@@ -84,6 +84,25 @@ public class BookingService
         return result ? 1 : 0; 
     }
 
+    //untuk melihat semua data ruangan yang sudah dibooking hari ini
+    public IEnumerable<BookedByDto> GetAllBookedBy()
+    {
+        var today = DateTime.Today.ToString("dd-MM-yyyy");
+        var result = from booking in _bookingRepository.GetAll().Where(booking => booking.StartDate.ToString("dd-MM-yyyy").Equals(today))
+                     join employee in _employeeRepository.GetAll() on booking.EmployeeGuid equals employee.Guid
+                     join room in _roomRepository.GetAll() on booking.RoomGuid equals room.Guid
+                     select new BookedByDto
+                     {
+                         BookingGuid = booking.Guid,
+                         RoomName = room.Name,
+                         Status = booking.Status,
+                         Floor = room.Floor,
+                         BookedBy = employee.FirstName + " " + employee.LastName
+                     };
+
+        return result;
+    }
+
     public IEnumerable<RoomDto> FreeRoomsToday()
     {
         List<RoomDto> roomDtos = new List<RoomDto>();

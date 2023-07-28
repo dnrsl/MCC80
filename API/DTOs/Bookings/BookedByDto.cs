@@ -1,8 +1,8 @@
 ﻿using API.Utilities.Enums;
 
-namespace API.DTOs.Rooms;
+namespace API.DTOs.Bookings;
 
-public class RoomBookedByDto
+public class BookedByDto
 {
     public Guid BookingGuid { get; set; }
     public string RoomName { get; set; }
