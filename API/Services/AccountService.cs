@@ -18,14 +18,16 @@ public class AccountService
     private readonly IEducationRepository _educationRepository;
     private readonly IUniversityRepository _universityRepository;
     private readonly BookingDbContext _bookingDbContext;
+    private readonly IEmailHandler _emailHandler;
 
-    public AccountService (IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IEducationRepository educationRepository, IUniversityRepository universityRepository, BookingDbContext bookingDbContext)
+    public AccountService (IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IEducationRepository educationRepository, IUniversityRepository universityRepository, BookingDbContext bookingDbContext, IEmailHandler emailHandler)
     {
         _employeeRepository = employeeRepository;
         _accountRepository = accountRepository;
         _educationRepository = educationRepository;
         _universityRepository = universityRepository;
         _bookingDbContext = bookingDbContext;
+        _emailHandler = emailHandler;
     }
 
     public IEnumerable<AccountDto> GetAll()
@@ -238,8 +240,9 @@ public class AccountService
             CreatedDate = getAccountDetail.CreatedDate,
             ModifiedDate = DateTime.Now
         };
-
         _accountRepository.Update(account);
+        _emailHandler.SendEmail(forgotPasswordDto.Email, "Account - Forgot Password", $"Your Otp is {otp}");
+
         return 1;
     }
 
