@@ -100,7 +100,14 @@ public class AccountService
 
         var getAccount = _accountRepository.GetByGuid(getEmployee.Guid);
 
+        /*
         if (getAccount.Password == loginDto.Password)
+        {
+            return 1;
+        }
+        */
+
+        if (HashingHandler.ValidateHash(loginDto.Password, getAccount.Password))
         {
             return 1;
         }
