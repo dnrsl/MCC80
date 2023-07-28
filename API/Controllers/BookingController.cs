@@ -227,7 +227,7 @@ public class BookingController : ControllerBase
         var result = _bookingService.GetAllBookingDetail();
         if (!result.Any())
         {
-            return NotFound(new ResponseHandler<BookingDto>
+            return NotFound(new ResponseHandler<DetailBookingDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -250,7 +250,7 @@ public class BookingController : ControllerBase
         var result = _bookingService.GetDetailBookingByGuid(guid);
         if (result is null)
         {
-            return NotFound(new ResponseHandler<BookingDto>
+            return NotFound(new ResponseHandler<DetailBookingDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),

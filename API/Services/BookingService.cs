@@ -177,6 +177,7 @@ public class BookingService
 
     public IEnumerable<DetailBookingDto> GetAllBookingDetail()
     {
+        /*
         var resultBooking = _bookingRepository.GetAll();
         if (!resultBooking.Any())
         {
@@ -213,40 +214,27 @@ public class BookingService
         }
 
         return detailDtos;
+        */
+
+        var result = from booking in _bookingRepository.GetAll()
+                     join room in _roomRepository.GetAll() on booking.RoomGuid equals room.Guid
+                     join employee in _employeeRepository.GetAll() on booking.EmployeeGuid equals employee.Guid
+                     select new DetailBookingDto
+                     {
+                         BookingGuid = booking.Guid,
+                         BookedNik = employee.Nik,
+                         BookedBy = employee.FirstName + " " + employee.LastName,
+                         RoomName = room.Name,
+                         StartDate = booking.StartDate,
+                         EndDate = booking.EndDate,
+                         Remarks = booking.Remarks
+                     };
+
+        return result;
     }
 
     public DetailBookingDto? GetDetailBookingByGuid(Guid guid)
     {
-        var resultBooking = _bookingRepository.GetByGuid(guid);
-        if (resultBooking is null )
-        {
-            return null;
-        }
-
-        var resultEmployee = _employeeRepository.GetByGuid(resultBooking.EmployeeGuid);
-        if (resultEmployee is null )
-        {
-            return null;
-        }
-
-        var resultRoom = _roomRepository.GetByGuid(resultBooking.RoomGuid);
-        if (resultRoom is null)
-        {
-            return null;
-        }
-
-        var toDto = new DetailBookingDto
-        {
-            BookingGuid = resultBooking.Guid,
-            BookedNik = resultEmployee.Nik,
-            BookedBy = resultEmployee.FirstName + " " + resultEmployee.LastName,
-            RoomName = resultRoom.Name,
-            StartDate = resultBooking.StartDate,
-            EndDate = resultBooking.EndDate,
-            Status = resultBooking.Status,
-            Remarks = resultBooking.Remarks
-        };
-
-        return toDto;
+        return GetAllBookingDetail().SingleOrDefault(b => b.BookingGuid == guid);
     }
 }
