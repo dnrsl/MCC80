@@ -8,8 +8,7 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordDto>
     public ChangePasswordValidator()
     {
         RuleFor(cp => cp.Otp)
-            .NotEmpty().WithMessage("Otp is required")
-            .MinimumLength(6).WithMessage("Enter the 6-digit OTP code that has been sent");
+            .NotEmpty().WithMessage("Otp is required");
 
         RuleFor(cp => cp.Email)
             .NotEmpty().WithMessage("Email is required")

@@ -238,7 +238,7 @@ public class AccountService
         {
             Guid = getAccountDetail.Guid,
             Password = getAccountDetail.Password,
-            Otp = Convert.ToInt32(otp),
+            Otp = otp,
             ExpiredTime = DateTime.Now.AddMinutes(5),
             IsUsed = false,
             CreatedDate = getAccountDetail.CreatedDate,
@@ -302,9 +302,7 @@ public class AccountService
         }
 
        
-
-        var getOtp = Convert.ToString(getAccountDetail.Otp);
-        if (getOtp != changePasswordDto.Otp)
+        if (getAccountDetail.Otp != changePasswordDto.Otp)
         {
             return -1; //Invalid Otp
         }

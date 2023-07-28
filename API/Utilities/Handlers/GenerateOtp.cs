@@ -2,10 +2,10 @@
 
 public class GenerateOtp
 {
-    public static string Otp()
+    public static int Otp()
     {
         Random random = new Random();
-        string otpCode = random.Next(100000, 999999).ToString();
+        int otpCode = random.Next(100000, 999999);
         return otpCode;
     }
 }
