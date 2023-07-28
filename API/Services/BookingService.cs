@@ -103,7 +103,7 @@ public class BookingService
         return result;
     }
 
-    public IEnumerable<RoomDto> FreeRoomsToday()
+    public IEnumerable<RoomDto> GetAllAvailableRoom ()
     {
         List<RoomDto> roomDtos = new List<RoomDto>();
         var bookings = GetAll();

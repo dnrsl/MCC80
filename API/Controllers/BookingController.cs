@@ -175,10 +175,10 @@ public class BookingController : ControllerBase
 
     }
 
-    [HttpGet("available")]
-    public IActionResult FreeRooomToday()
+    [HttpGet("available-today")]
+    public IActionResult GetAllAvailableRoom()
     {
-        var result = _bookingService.FreeRoomsToday();
+        var result = _bookingService.GetAllAvailableRoom();
         if (result is null)
         {
             return NotFound(new ResponseHandler<RoomDto>
