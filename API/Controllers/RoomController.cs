@@ -153,4 +153,28 @@ public class RoomController : ControllerBase
             Message = "Delete Success"
         });
     }
+
+    [HttpGet("Booked")]
+    public IActionResult GetAllBookedBy()
+    {
+        var result = _roomService.GetAllBookedBy();
+        if (!result.Any())
+        {
+            return NotFound(new ResponseHandler<RoomBookedByDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No bookings have been made today."
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<RoomBookedByDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieve data",
+            Data = result
+        });
+
+    }
 }
