@@ -32,20 +32,20 @@ public class UpdateEmployeeValidator : AbstractValidator<UpdateEmployeeDto>
         RuleFor(e => e.Email)
             .NotEmpty().WithMessage("Email is required")
             .EmailAddress().WithMessage("Email is not valid")
-            .Must(IsDuplicateValue).WithMessage("Email already exists");
+            .Must(IsDuplicateOrSame).WithMessage("Email already exists");
 
 
         RuleFor(e => e.PhoneNumber)
             .NotEmpty().WithMessage("Phone number is required")
             .MaximumLength(20).WithMessage("Maximum 20 characters allowed")
             .Matches(@"^\+[0-9]+$")
-            .Must(IsDuplicateValue).WithMessage("Phone number already exists");
+            .Must(IsDuplicateOrSame).WithMessage("Phone number already exists");
     }
 
     //custom method
-    private bool IsDuplicateValue(string arg)
-    {
 
-        return _employeeRepository.IsNotExist(arg);
+    private bool IsDuplicateOrSame (string arg)
+    {
+        return _employeeRepository.IsDataUnique(arg);
     }
 }
