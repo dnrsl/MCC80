@@ -5,11 +5,13 @@ using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using API.Utilities.Handlers;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/universities")]
+[Authorize]
 public class UniversityController : ControllerBase
 {
     private readonly UniversityService _universityService;

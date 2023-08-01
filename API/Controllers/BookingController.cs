@@ -6,6 +6,7 @@ using API.Models;
 using API.Repositories;
 using API.Services;
 using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -13,6 +14,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/bookings")]
+[Authorize]
 public class BookingController : ControllerBase
 {
     private readonly BookingService _bookingService;
@@ -21,7 +23,9 @@ public class BookingController : ControllerBase
         _bookingService = bookingService;
     }
 
+    
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult GetAll()
     {
         var result = _bookingService.GetAll();
@@ -152,6 +156,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet("booked-today")]
+    [AllowAnonymous]
     public IActionResult GetAllBookedBy()
     {
         var result = _bookingService.GetAllBookedBy();
@@ -176,6 +181,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet("available-today")]
+    [AllowAnonymous]
     public IActionResult GetAllAvailableRoom()
     {
         var result = _bookingService.GetAllAvailableRoom();
@@ -199,6 +205,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet("length")]
+    [AllowAnonymous]
     public IActionResult BookingLength()
     {
         var result = _bookingService.BookingLength();
@@ -222,6 +229,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet("detail")]
+    [AllowAnonymous]
     public IActionResult GetALlDetailBooking()
     {
         var result = _bookingService.GetAllBookingDetail();
@@ -245,6 +253,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost("detail/{guid}")]
+    [AllowAnonymous]
     public IActionResult GetDetailBookingByGuid(Guid guid)
     {
         var result = _bookingService.GetDetailBookingByGuid(guid);

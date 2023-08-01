@@ -14,5 +14,6 @@ public interface IEmployeeRepository : IGeneralRepository<Employee>
     Employee? GetByEmail(string email);
 
     Guid GetLastEmployeeGuid();
-    //bool SameOrIsExist(string value2);
+
+    bool IsDataUnique(string value2);
 }

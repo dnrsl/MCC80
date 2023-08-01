@@ -44,17 +44,19 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
                        .LastOrDefault().Guid;
     }
 
+    public bool IsDataUnique(string value2)
+    {
+        var existingEmployee = _context.Set<Employee>().SingleOrDefault(e => e.Email == value2  || e.PhoneNumber == value2);
 
+        if (existingEmployee is null)
+        {
+            return true;
+        }
 
-    //public bool SameOrIsExist(string value2)
-    //{
-    //    var employees = _context.Set<Employee>()
-    //                   .SingleOrDefault(e => e.Email.Contains(value2) || e.PhoneNumber.Contains(value2)) is null;
-    //    if (employees == null)
-    //    {
-    //        return false;
-    //    }
-
-    //    return true;
-    //}
+        else
+        {
+            bool isSameAsExistingData = existingEmployee.Email == value2 || existingEmployee.PhoneNumber == value2;
+            return isSameAsExistingData;
+        }
+    }
 }

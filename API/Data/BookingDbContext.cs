@@ -1,6 +1,8 @@
-﻿using API.Models;
+﻿using API.DTOs.Roles;
+using API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Xml.Linq;
 
 namespace API.Data;
 
@@ -24,6 +26,23 @@ public class BookingDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Role>().HasData(new RoleDefaultDto
+        {
+            Guid = Guid.Parse("083e7d1a-0ae6-4508-9fa7-08db92312884"),
+            Name = "Employee"
+        },
+        new RoleDefaultDto
+        {
+            Guid = Guid.Parse("a165ce23-72d7-4a40-9fa5-08db92312884"),
+            Name = "Manager" 
+        },
+        new RoleDefaultDto
+        {
+            Guid = Guid.Parse("65ac9785-4023-41f0-9fa6-08db92312884"),
+            Name = "Admin"
+        });
+
         modelBuilder.Entity<Employee>()
                     .HasIndex(e => new
                     {
