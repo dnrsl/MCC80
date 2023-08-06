@@ -1,0 +1,121 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_LayoutLatihan";
+}
+<!-- Pokedex -->
+<div class="header mb-4">
+    <div class="header-title">
+        <h1 class="h1"> <span>  <img src="https://img.freepik.com/free-icon/pokeball_318-331350.jpg?w=2000" class="img-fluid" style="width: 50px; height: 50px;" alt="Logo"> </span>POKEDEX</h1>
+    </div>
+</div>
+
+<div class="mb-4" id="data-pokemon-list">
+    <div class="row row-cols-2 row-cols-lg-5" id="pokemon-list">
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="detail-pokemon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl text-white">
+        <div class="modal-content">
+            <div class="modal-header" style="color: #f05452;">
+                <h5 class="modal-title" id="exampleModalLabel">Pokedex</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body position-relative bg-overlay bg-opacity-75" style="background-image: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/813b6b5a-d48f-4d22-aa23-bb84ac52ccb6/d5c6eql-10a04956-ab30-463f-88a6-27afa9f85eb9.jpg/v1/fit/w_828,h_518,q_70,strp/pokeball_wallpaper_by_markitox_rox3r_d5c6eql-414w-2x.jpg');">
+                <div class="container" id="detail-data-pokemon">
+                    <div class="row">
+                        <div class="col" id="pokemon-image">
+                            Nama
+                            Gambar
+                        </div>
+                        <div class="col" id="pokemon-detail">
+                            <div class="container">
+                                <div class="row m-0">
+                                    <div class="col" id="type-pokemon">
+                                        type
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col" id="characteristics-pokemon">
+                                        height + weight + color
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col" id="status-pokemon">
+                                        status
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<--! grid -->
+<div class="container-fluid text-center border border-primary m-auto" id="container">
+    <div class="row m-10" id="row1">
+        <div class="col border border-primary" id="col1">
+
+            Why do we use it?
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+            Why do we use it?
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+            Why do we use it?
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+
+
+        </div>
+        <div class="col" id="col2">
+            <div class="row m-0" id="row2">
+                <div class="col border border-primary" id="col3">
+
+                    Why do we use it?
+                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+                </div>
+                </div>
+            <div class="row mt-20px mb-0 mx-0" id="row3">
+                <div class="col border border-primary" id="col4">
+
+                    Why do we use it?
+                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+
+                </div>
+        </div>
+    </div>
+</div>
+
+    <p class="h2 my-5 text-center">List Starwars</p>
+
+<div>
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Number</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Height</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+        </table>
+</div>
+    
+
+
