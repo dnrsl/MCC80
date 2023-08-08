@@ -30,3 +30,4 @@ C:\Users\Dani\Desktop\Latihan\MCC80\Client\obj\Debug\net6.0\Client.pdb
 C:\Users\Dani\Desktop\Latihan\MCC80\Client\obj\Debug\net6.0\Client.genruntimeconfig.cache
 C:\Users\Dani\Desktop\Latihan\MCC80\Client\obj\Debug\net6.0\ref\Client.dll
 C:\Users\Dani\Desktop\Latihan\MCC80\Client\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutLatihan.cshtml.rz.scp.css
+C:\Users\Dani\Desktop\Latihan\MCC80\Client\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutAdmin.cshtml.rz.scp.css

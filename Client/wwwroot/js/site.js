@@ -40,15 +40,14 @@ function Insert() {
                 ${result.message}
             </div>
         `;
+        $("#alert-container").html(successAlert);
         Swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: result.message,
             showConfirmButton: false,
             timer: 1500
         })
-        // Tambahkan alert ke dalam elemen dengan ID tertentu (misalnya, #alert-container)
-        $("#alert-container").html(successAlert);
+
     }).fail((error) => {
         console.log("Error Response:", error); 
     // Buat alert pemberitahuan jika gagal
@@ -57,20 +56,27 @@ function Insert() {
                 ${error.responseJSON.message}
             </div>
         `;
+        $("#alert-container").html(errorAlert);
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: error.responseJSON.message
-        })
-    // Tambahkan alert ke dalam elemen dengan ID tertentu (misalnya, #alert-container)
-    $("#alert-container").html(errorAlert);
+        })    
 })
 }
 
 
+
 $(document).ready(function () {
     let table = new DataTable('#employee-table', {
-        
+        dom: 'Bfrtip',
+        buttons: ['colvis',
+            { extend: 'copy', exportOptions: { columns: ':visible' } },
+            { extend: 'csv', exportOptions: { columns: ':visible' } },
+            { extend: 'excel', exportOptions: { columns: ':visible' } },
+            { extend: 'pdf', exportOptions: { columns: ':visible' } },
+            { extend: 'print', exportOptions: { columns: ':visible' } }
+        ],
         ajax: {
             url: "https://localhost:7181/api/employees",
             dataSrc: "data",
