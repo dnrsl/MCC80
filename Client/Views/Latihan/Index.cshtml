@@ -4,65 +4,49 @@
 @{
     Layout = "_LayoutLatihan";
 }
-<!-- Pokedex -->
-<div class="header mb-4">
-    <div class="header-title">
-        <h1 class="h1"> <span>  <img src="https://img.freepik.com/free-icon/pokeball_318-331350.jpg?w=2000" class="img-fluid" style="width: 50px; height: 50px;" alt="Logo"> </span>POKEDEX</h1>
-    </div>
-</div>
-
-<div class="mb-4" id="data-pokemon-list">
-    <div class="row row-cols-2 row-cols-lg-5" id="pokemon-list">
-    </div>
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="detail-pokemon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl text-white">
-        <div class="modal-content">
-            <div class="modal-header" style="color: #f05452;">
-                <h5 class="modal-title" id="exampleModalLabel">Pokedex</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="container row row-cols-2 row-cols-lg-5 g-2 g-lg-3" id="menu">
+    <!-- Pokemon -->
+    <div class="card mb-3 mr-3" style="max-width: 300px;">
+        <div class="row g-0 m-3">
+            <div class="col m-0 p-0">
+                <img src="https://cdn.icon-icons.com/icons2/851/PNG/512/Pokedex_tool_icon-icons.com_67529.png" class="img-thumbnail border-0" alt="..." style="max-width: 50px;">
             </div>
-            <div class="modal-body position-relative bg-overlay bg-opacity-75" style="background-image: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/813b6b5a-d48f-4d22-aa23-bb84ac52ccb6/d5c6eql-10a04956-ab30-463f-88a6-27afa9f85eb9.jpg/v1/fit/w_828,h_518,q_70,strp/pokeball_wallpaper_by_markitox_rox3r_d5c6eql-414w-2x.jpg');">
-                <div class="container" id="detail-data-pokemon">
-                    <div class="row">
-                        <div class="col" id="pokemon-image">
-                            Nama
-                            Gambar
-                        </div>
-                        <div class="col" id="pokemon-detail">
-                            <div class="container">
-                                <div class="row m-0">
-                                    <div class="col" id="type-pokemon">
-                                        type
-                                    </div>
-                                </div>
-                                <div class="row m-0">
-                                    <div class="col" id="characteristics-pokemon">
-                                        height + weight + color
-                                    </div>
-                                </div>
-                                <div class="row m-0">
-                                    <div class="col" id="status-pokemon">
-                                        status
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col m-0 p-0 d-flex flex-column" style="max-width:100px">
+                <a class="btn btn-primary" role="button" asp-area="" asp-controller="Latihan" asp-action="Pokemon">Open</a>
+            </div>
+        </div>
+        <div class="row g-0 m-0">
+            <div class="col m-0 p-0">
+                <div class="card-body pt-0">
+                    <h5 class="card-title">Pokedex</h5>
+                    <p class="card-text fs-6">Tugas Pokemon API</p>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+    <!-- Table Employee -->
+    <div class="card mb-3" style="max-width: 300px;">
+        <div class="row g-0 m-3">
+            <div class="col m-0 p-0">
+                <img src="https://aista.com/images/crud.jpeg" class="img-thumbnail border-0" alt="..." style="max-width: 100px;">
+            </div>
+            <div class="col m-0 p-0 d-flex flex-column" style="max-width:100px">
+                <a class="btn btn-primary" role="button" asp-area="" asp-controller="Latihan" asp-action="TableEmployee">Open</a>
+            </div>
+        </div>
+        <div class="row g-0 m-0">
+            <div class="col m-0 p-0">
+                <div class="card-body pt-0">
+                    <h5 class="card-title">CRUD</h5>
+                    <p class="card-text fs-6">Tugas Tabel Employee</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-<--! grid -->
+<!-- grid -->
 <div class="container-fluid text-center border border-primary m-auto" id="container">
     <div class="row m-10" id="row1">
         <div class="col border border-primary" id="col1">
@@ -99,6 +83,13 @@
         </div>
     </div>
 </div>
+<div>
+     <button type="button" class="btn btn-primary" id="btn1">Blue</button>
+     <button type="button" class="btn btn-danger" id="btn2">Red</button>
+     <button type="button" class="btn btn-success" id="btn3">Green</button>
+</div>
+
+
 
     <p class="h2 my-5 text-center">List Starwars</p>
 
@@ -116,6 +107,8 @@
             </tbody>
         </table>
 </div>
+
+
     
 
 

@@ -6,6 +6,7 @@ using API.Repositories;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
@@ -16,7 +17,8 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/accounts")]
-[Authorize]
+//[Authorize]
+[EnableCors]
 public class AccountController : ControllerBase
 {
     private readonly AccountService _accountService;

@@ -10,5 +10,13 @@ namespace Client.Controllers
         {
             return View();
         }
+        public IActionResult Pokemon()
+        {
+            return View();
+        }
+        public IActionResult TableEmployee()
+        {
+            return View();
+        }
     }
 }

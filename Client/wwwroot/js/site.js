@@ -3,11 +3,122 @@
 
 // Write your JavaScript code.
 
+$(document).ready(function () {
+    $("#employee-create").click(function () {
+        // Panggil fungsi Insert() atau tindakan lain yang Anda inginkan
+        Insert();
+
+        // Tutup modal setelah selesai
+        $("#employee-modal").modal("hide");
+    });
+});
+
+function Insert() {
+    var obj = new Object(); //sesuaikan sendiri nama objectnya dan beserta isinya
+    //ini ngambil value dari tiap inputan di form nya
+
+    obj.firstName = $("#firstname").val();
+    obj.lastName = $("#lastname").val();
+    obj.birthDate = ($("#birthdate").val());
+    obj.gender = parseInt($("#genderSelect").val());
+    obj.hiringDate = ($("#hiringdate").val());
+    obj.email = $("#emailInput").val();
+    obj.phoneNumber = $("#phoneNumber").val();
+    console.log(obj)
+    //isi dari object kalian buat sesuai dengan bentuk object yang akan di post
+    $.ajax({
+        url: "https://localhost:7181/api/employees",
+        type: "POST",
+        data: JSON.stringify(obj), // Konversi object menjadi JSON string
+        contentType: "application/json; charset=utf-8", // Set content type
+        dataType: "json", // Tipe data yang diharapkan dari server
+         //jika terkena 415 unsupported media type (tambahkan headertype Json & JSON.Stringify();)
+    }).done((result) => {
+        // Buat alert pemberitahuan jika success
+        const successAlert = `
+            <div class="alert alert-primary" role="alert">
+                ${result.message}
+            </div>
+        `;
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: result.message,
+            showConfirmButton: false,
+            timer: 1500
+        })
+        // Tambahkan alert ke dalam elemen dengan ID tertentu (misalnya, #alert-container)
+        $("#alert-container").html(successAlert);
+    }).fail((error) => {
+        console.log("Error Response:", error); 
+    // Buat alert pemberitahuan jika gagal
+    const errorAlert = `
+            <div class="alert alert-danger" role="alert">
+                ${error.responseJSON.message}
+            </div>
+        `;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error.responseJSON.message
+        })
+    // Tambahkan alert ke dalam elemen dengan ID tertentu (misalnya, #alert-container)
+    $("#alert-container").html(errorAlert);
+})
+}
+
+
+$(document).ready(function () {
+    let table = new DataTable('#employee-table', {
+        
+        ajax: {
+            url: "https://localhost:7181/api/employees",
+            dataSrc: "data",
+            dataType: "JSON"
+        },
+        columns: [
+            {
+                data: "",
+                render: function (data, type, row, meta) {
+                    // Mengembalikan nomor urut (indeks + 1) dalam kolom yang kosong
+                    return meta.row + 1;
+                }
+            },
+            { data: "nik" },
+            { data: "firstName" },
+            { data: "lastName" },
+            { data: "birthDate" },
+            {
+                data: "gender",
+                render: function (data, type, row) {
+                    if (data === 0) {
+                        return "Female";
+                    }
+                    else if (data === 1) {
+                        return "Male";
+                    }
+                    else {
+                        return "empty";
+                    }
+                }
+            },
+            { data: "hiringDate" },
+            { data: "email" },
+            { data: "phoneNumber" },
+            {
+                data: "",
+                render: function (data, type, row) {
+                    return `<button onclick="('')" data-bs-toggle="modal" data-bs-target="" class="btn btn-primary">Detail</button>`;
+                }
+            },
+        ]
+    });
+});
+
 $.ajax({
     url: "https://pokeapi.co/api/v2/pokemon"
 }).done((result) => {
     let data = "";
-
     $.each(result.results, (key, val) => {
         $.ajax({
             url: val.url
@@ -71,9 +182,11 @@ function detailPokemon(pokemonDetailURL) {
             `).join('')}
             `;
             $("#status-pokemon").html(statsPokemon);
+            
 
         }
     })
+    console.log(pokemonDetailURL);
 }
 
 function statBGColor(stats) {
@@ -98,70 +211,33 @@ function statBGColor(stats) {
 }
 
 function typeBGColor(type) {
-    if (type === "normal") {
-        return "#929da3";
-    }
-    else if (type === "fighting") {
-        return "#ce416b";
-    }
-    else if (type === "flying") {
-        return "#8fa9de";
-    }
-    else if (type === "poison") {
-        return "#aa6bc8";
-    }
-    else if (type === "ground") {
-        return "#d97845";
-    }
-    else if (type === "rock") {
-        return "#c5b78c";
-    }
-    else if (type === "bug") {
-        return "#91c12f";
-    }
-    else if (type === "ghost") {
-        return "#5269ad";
-    }
-    else if (type === "steel") {
-        return "#5a8ea2";
-    }
-    else if (type === "fire") {
-        return "#ff9d55";
-    }
-    else if (type === "water") {
-        return "#5090d6";
-    }
-    else if (type === "grass") {
-        return "#63bc5a";
-    }
-    else if (type === "electric") {
-        return "#f4d23c";
-    }
-    else if (type === "psychic") {
-        return "#f4d23c";
-    }
-    else if (type === "ice") {
-        return "#73cec0";
-    }
-    else if (type === "dragon") {
-        return "#0b6dc3";
-    }
-    else if (type === "dark") {
-        return "#5a5465";
-    }
-    else if (type === "fairy") {
-        return "#ec8fe6";
-    }
-    else if (type === "physical") {
-        return "#ea551e";
-    }
-    else if (type === "special") {
-        return "#1f4e94";
-    }
-    else {
-        return "#68a090";
-    }
+    const typeColors = {
+        "normal": "#929da3",
+        "fighting": "#ce416b",
+        "flying": "#8fa9de",
+        "poison": "#aa6bc8",
+        "ground": "#d97845",
+        "rock": "#c5b78c",
+        "bug": "#91c12f",
+        "ghost": "#5269ad",
+        "steel": "#5a8ea2",
+        "fire": "#ff9d55",
+        "water": "#5090d6",
+        "grass": "#63bc5a",
+        "electric": "#f4d23c",
+        "psychic": "#f4d23c",
+        "ice": "#73cec0",
+        "dragon": "#0b6dc3",
+        "dark": "#5a5465",
+        "fairy": "#ec8fe6",
+        "physical": "#ea551e",
+        "special": "#1f4e94",
+        "unknown": "#68a090" // Jika jenis tipe tidak dikenali
+    };
+
+    return typeColors[type] || "#68a090"; // Mengembalikan warna default jika tipe tidak dikenali
 }
+
 
 
 /*
@@ -200,7 +276,7 @@ $.ajax({
 
 
 
-/*
+
 let a = document.getElementById("btn1");
 let b = document.getElementById("btn2");
 let c = document.getElementById("btn3");
@@ -220,7 +296,7 @@ c.addEventListener('click', () => {
     d.style.backgroundColor = "green";
 })
 
-
+/*
 //const animals = [
 //    { name: "dory", species: "fish", class: { name: "vertebrata" } },
 //    { name: "tom", species: "cat", class: { name: "mamalia" } },
@@ -242,6 +318,7 @@ c.addEventListener('click', () => {
 
 //console.log('Only Cat :', onlyCat);
 //console.log('Fish into non-mamalia', animals);
+*/
 
 //asynchronous javascript
 $.ajax({
@@ -263,4 +340,4 @@ $.ajax({
     $("tbody#table-body").html(temp);
 });
 
-*/
+

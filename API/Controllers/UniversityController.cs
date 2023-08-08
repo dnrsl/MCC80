@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using API.Utilities.Handlers;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/universities")]
-[Authorize]
+//[Authorize]
+[EnableCors]
 public class UniversityController : ControllerBase
 {
     private readonly UniversityService _universityService;

@@ -1,0 +1,83 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_LayoutLatihan";
+}
+<div id="alert-container"></div>
+<!-- Table Employee -->
+<div class="mb-5">
+    <div class="mb-2">
+        <button class="btn btn-primary" id="create-button" data-bs-toggle="modal" data-bs-target="#employee-modal"><i class="fa-solid fa-plus"></i> Create New</button>
+    </div>
+    <div>
+        <table class="table" id="employee-table">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">NIK</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Birth Date</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Hiring Date</th>
+                    <th scope="col">Email </th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-employee">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Modal Tabel Employee-->
+<div class="modal" tabindex="-1" id="employee-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Employee Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3" id="first-name">
+                    <label for="firstname" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstname" placeholder="Your First Name">
+                </div>
+                <div class="mb-3" id="last-name">
+                    <label for="lastname" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" placeholder="Your Last Name">
+                </div>
+                <div class="mb-3" id="birth-date">
+                    <label for="birthdate" class="form-label">Birth Date</label>
+                    <input type="date" class="form-control" id="birthdate">
+                </div>
+                <div class="mb-3" id="gender">
+                    <label for="genderSelect" class="form-label">Gender</label>
+                    <select class="form-select" id="genderSelect">
+                        <option value="0">Female</option>
+                        <option value="1">Male</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="hiring-date">
+                    <label for="birthdate" class="form-label">Hiring Date</label>
+                    <input type="date" class="form-control" id="hiringdate">
+                </div>
+                <div class="mb-3" id="email">
+                    <label for="emailInput" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="emailInput" placeholder="name@example.com">
+                </div>
+                <div class="mb-3" id="phone-number">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="phoneNumber" placeholder="+0123456789" value="+">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="employee-create">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

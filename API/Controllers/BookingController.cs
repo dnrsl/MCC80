@@ -7,6 +7,7 @@ using API.Repositories;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -14,7 +15,8 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/bookings")]
-[Authorize]
+//[Authorize]
+[EnableCors]
 public class BookingController : ControllerBase
 {
     private readonly BookingService _bookingService;
