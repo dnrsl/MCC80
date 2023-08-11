@@ -4,6 +4,10 @@
 @{
     Layout = "_LayoutAdmin";
 }
+<div class="m-4">
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+</div>
+
 <div id="alert-container"></div>
 <!-- Table Employee -->
 <div class="mb-5">
@@ -11,7 +15,7 @@
         <button class="btn btn-primary" id="create-button" data-bs-toggle="modal" data-bs-target="#employee-modal"><i class="fa-solid fa-plus"></i> Create New</button>
     </div>
     <div>
-        <table class="table" id="employee-table">
+        <table class="table text-center" id="employee-table">
             <thead>
                 <tr>
                     <th scope="col">No</th>

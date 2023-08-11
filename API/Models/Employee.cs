@@ -1,4 +1,5 @@
-﻿using API.Utilities.Enums;
+﻿using API.DTOs.Employees;
+using API.Utilities.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 

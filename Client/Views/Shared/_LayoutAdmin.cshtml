@@ -36,13 +36,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- Data Table CSS-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="~/bootstrap/assets/vendor/fonts/boxicons.css" />
@@ -55,7 +58,11 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="~/bootstrap/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="~/bootstrap/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="~/bootstrap/assets/vendor/libs/apex-charts/apex-charts.css" />\
+
+    <!-- toastr -->
+    @await RenderSectionAsync("CSS", required: false)
+
 
     <!-- Page CSS -->
     <!-- Helpers -->
@@ -620,10 +627,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
     <!-- /Data Table-->
 
     <script src="~/bootstrap/assets/vendor/libs/popper/popper.js"></script>
-
 
     <script src="~/bootstrap/assets/vendor/js/menu.js"></script>
     <!-- endbuild -->
@@ -631,14 +640,28 @@
     <!-- Main JS -->
     <script src="~/bootstrap/assets/js/main.js"></script>
 
-
     <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript">
+        // Hanya tampilkan toastr jika TempData memiliki nilai
+        @if (!string.IsNullOrEmpty(TempData["Success"] as string))
+        {
+            <text>
+                toastr.success('@TempData["Success"]');
+            </text>
+        }
+        @if (!string.IsNullOrEmpty(TempData["Error"] as string))
+        {
+            <text>
+                toastr.error('@TempData["Error"]');
+            </text>
+        }
+    </script>
 
 
-    
-    
-    
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

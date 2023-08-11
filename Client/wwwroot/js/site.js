@@ -46,8 +46,9 @@ function Insert() {
             title: result.message,
             showConfirmButton: false,
             timer: 1500
-        })
-
+        }).then(() => {
+            location.reload();
+        });
     }).fail((error) => {
         console.log("Error Response:", error); 
     // Buat alert pemberitahuan jika gagal
@@ -65,17 +66,156 @@ function Insert() {
 })
 }
 
+$(document).ready(function () {
+    // Memuat data menggunakan Ajax
+    $.ajax({
+        url: "https://localhost:7181/api/employees/detail"
+    }).done((result) => {
+        // Menghitung jumlah gender 0 dan gender 1
+        let upiCount = 0;
+        let upCount = 0;
+        let otherCount =0;
+
+        // Mengiterasi setiap baris data
+        result.data.forEach(function (dataDetail) {
+            if (dataDetail.universityName === "Universitas Pancasila") {
+                upiCount++;
+            } else if (dataDetail.universityName === "Universitas Pendidikan Indonesia") {
+                upCount++;
+            }
+            else {
+                otherCount++;
+            }
+        });
+
+        // Menampilkan hasil perhitungan
+        console.log("upi:", upiCount);
+        console.log("up:", upCount);
+        console.log("other:", otherCount);
+
+        // Menginisialisasi Chart.js
+        var xValues = ["Universitas Pancasila", "Universitas Pendidikan Indonesia", "Lain-lainnya"];
+        var yValues = [upCount, upiCount, otherCount];
+        var barColors = [
+            "#FF3D3D",
+            "#354656",
+            "#4a9d9c"
+        ];
+
+        new Chart("myChart2", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Employee Universities"
+                }
+            }
+        });
+    });
+});
 
 
 $(document).ready(function () {
-    let table = new DataTable('#employee-table', {
+    // Memuat data menggunakan Ajax
+    $.ajax({
+        url: "https://localhost:7181/api/employees"
+    }).done((result) => {
+        // Menghitung jumlah gender 0 dan gender 1
+        let femaleCount = 0;
+        let maleCount = 0;
+
+        // Mengiterasi setiap baris data
+        result.data.forEach(function (dataDetail) {
+            if (dataDetail.gender === 0) {
+                femaleCount++;
+            } else if (dataDetail.gender === 1) {
+                maleCount++;
+            }
+        });
+
+        // Menampilkan hasil perhitungan
+        console.log("Total Gender 0 (Female):", femaleCount);
+        console.log("Total Gender 1 (Male):", maleCount);
+
+        // Menginisialisasi Chart.js
+        var xValues = ["Female", "Male"];
+        var yValues = [femaleCount, maleCount];
+        var barColors = [
+            "#b91d47",
+            "#00aba9"
+        ];
+
+        new Chart("myChart1", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Employee Gender"
+                }
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $('#employee-table2').DataTable({
         dom: 'Bfrtip',
+        lengthMenu: [
+            [10, 25, 50, -1],
+            ['10 rows', '25 rows', '50 rows', 'Show all']
+        ],
         buttons: ['colvis',
             { extend: 'copy', exportOptions: { columns: ':visible' } },
             { extend: 'csv', exportOptions: { columns: ':visible' } },
             { extend: 'excel', exportOptions: { columns: ':visible' } },
             { extend: 'pdf', exportOptions: { columns: ':visible' } },
             { extend: 'print', exportOptions: { columns: ':visible' } }
+        ]
+    });
+});
+
+
+$(document).ready(function () {
+    let table = new DataTable('#employee-table', {
+        dom: 'Bfrtip',
+        buttons: ['colvis',
+            {
+                extend: 'copy',
+                exportOptions: {
+                    columns: ':visible',
+                }
+            },
+            {
+                extend: 'csv',
+                exportOptions: { columns: ':visible' }
+            },
+            {
+                extend: 'excel',
+                exportOptions: { columns: ':visible' }
+            },
+            {
+                extend: 'pdf',
+                exportOptions: { columns: ':visible' }
+            },
+            {
+                extend: 'print',
+                exportOptions: { columns: ':visible' }
+            }
         ],
         ajax: {
             url: "https://localhost:7181/api/employees",
@@ -114,12 +254,84 @@ $(document).ready(function () {
             {
                 data: "",
                 render: function (data, type, row) {
-                    return `<button onclick="('')" data-bs-toggle="modal" data-bs-target="" class="btn btn-primary">Detail</button>`;
+                    return `
+                    <div class="d-flex justify-content-center">
+                    <button onclick="('')" data-bs-toggle="modal" data-bs-target="" class="btn btn-light mx-1"><i class="fa-solid fa-pen"></i></button>
+                    <button onclick="deleteEmployee('${row.guid}')" class="btn btn-danger mx-1"><i class="fa-solid fa-trash "></i></button>
+                    </div>
+                    `;
                 }
             },
-        ]
+        ],
+
+        initComplete: function () {
+            // Menghitung jumlah gender 0 dan gender 1
+            let gender0Count = 0;
+            let gender1Count = 0;
+
+            // Mengiterasi setiap baris data
+            table.rows().data().each(function (row) {
+                if (row.gender === 0) {
+                    gender0Count++;
+                } else if (row.gender === 1) {
+                    gender1Count++;
+                }
+            });
+
+            // Menampilkan hasil perhitungan
+            console.log("Total Gender 0 (Female):", gender0Count);
+            console.log("Total Gender 1 (Male):", gender1Count);
+            var xValues = ["Female", "Male"];
+            var yValues = [gender0Count, gender1Count];
+            var barColors = [
+                "#b91d47",
+                "#00aba9"
+            ];
+
+            new Chart("myChart", {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: "Employee Gender"
+                    }
+                }
+            });
+        }
     });
 });
+
+function deleteEmployee(guid) {
+    $.ajax({
+        url: `https://localhost:7181/api/employees?guid=${guid}`,
+        type: "DELETE",
+        success: function (result) {
+            // Refresh atau lakukan tindakan lain setelah berhasil menghapus data
+            Swal.fire({
+                icon: 'success',
+                title: result.message,
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                location.reload();
+            });
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.responseJSON.message
+            })
+        }
+    });
+}
 
 $.ajax({
     url: "https://pokeapi.co/api/v2/pokemon"
