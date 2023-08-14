@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Dani\Desktop\Latihan\MCC80\Client
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Employee/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -26,6 +30,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Employee/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Home/401.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVw0MDEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Home/403.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVw0MDMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Home/404.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVw0MDQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Home/Index.cshtml]
@@ -46,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Latihan/TableEmployee.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGF0aWhhblxUYWJsZUVtcGxveWVlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Register/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Shared/Error.cshtml]
@@ -76,6 +96,14 @@ build_metadata.AdditionalFiles.CssScope = b-j41ub9gw8f
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRBZG1pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = b-9utaaqplnt
 
+[C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Shared/_LayoutError.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-84uwpsorqd
+
 [C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Shared/_LayoutLatihan.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRMYXRpaGFuLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-hl1bbwhcwa
+
+[C:/Users/Dani/Desktop/Latihan/MCC80/Client/Views/Shared/_LayoutLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-0q030d9sx1

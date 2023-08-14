@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.DTOs.Accounts;
+using API.Models;
 
 namespace API.Contracts;
 

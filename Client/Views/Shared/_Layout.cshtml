@@ -28,6 +28,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Latihan" asp-action="Index">Latihan</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li id="loginButton" class="nav-item">
+                                <a class="nav-link text-dark" href="/account/logout">logout</a>
+                            </li>
+                        }
+                        else{
+                        <li id="loginButton" class="nav-item">
+                            <a class="nav-link text-dark" href="/account/login">Login</a>
+                        </li>
+                        }
                     </ul>
                 </div>
             </div>

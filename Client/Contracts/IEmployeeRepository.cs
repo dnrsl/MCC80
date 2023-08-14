@@ -2,9 +2,8 @@
 using API.DTOs.Employees;
 using API.Models;
 
-namespace Client.Contracts
+namespace Client.Contracts;
+
+public interface IEmployeeRepository : IGeneralRepository<Employee, Guid>
 {
-    public interface IEmployeeRepository : IGeneralRepository<Employee, Guid>
-    {
-    }
 }

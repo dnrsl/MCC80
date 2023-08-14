@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Unauthorized Access";
+    Layout = "_LayoutError";
+}
+<h2 class="mb-2 mx-2">Unauthorized Access 🚫</h2>
+<p class="mb-4 mx-2">Oops! 😖 You are not authorized to access this page.</p>
+<p class="mb-4 mx-2">Please make sure you are logged in and have the necessary permissions to view this content.</p>
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to home</a>
+<div class="mt-3">
+    <img src="~/bootstrap/assets/img/illustrations/401.png"
+         alt="page-misc-error-light"
+         width="500"
+         class="img-fluid"
+         />
+</div>

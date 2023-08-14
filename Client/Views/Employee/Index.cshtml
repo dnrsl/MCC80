@@ -12,8 +12,9 @@
         <a href="employee/Create" class="btn btn-primary" id="create-button"><i class="fa-solid fa-plus"></i> Create New</a>
     </div>
     <div class="">
+        <h5 class="card-header">Employee</h5>
         <table class="table text-center" id="employee-table2">
-            <thead class="table-light table-striped table-hover">
+            <thead class="table table-striped table-hover">
                 <tr>
                     <th scope="col">NIK</th>
                     <th scope="col">First Name</th>
@@ -55,11 +56,16 @@
                             @Html.DisplayFor(modelItem => item.PhoneNumber)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Guid">Edit</a> |
+                            <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Guid">Edit</a> |
                             <a asp-action="Details" asp-route-id="@item.Guid">Details</a> |
                             <form action="/Employee/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
                                 <input type="hidden" value="@item.Guid" name="guid" />
                                 <input type="submit" value="Delete" class="btn btn-danger" onclick="return true" />
+                            </form>
+
+                            <form id="deleteForm" action="/Employee/Delete" method="post">
+                                <input type="hidden" value="@item.Guid" name="guid" />
+                                <button type="button" class="btn btn-danger" onclick="deleteConfirmation()">Delete v2</button>
                             </form>
                         </td>
                     </tr>
@@ -69,7 +75,7 @@
     </div>
 </div>
 
-<h1 class="my-4"> table dari razor view</h1>
+@*<h1 class="my-4"> table dari razor view</h1>
 
 <table class="table">
     <thead>
@@ -142,7 +148,7 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@
 
 
 @section CSS{
